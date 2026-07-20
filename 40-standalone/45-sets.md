@@ -4,8 +4,16 @@
 spreadsheet r/fitness actually recommends, as an app that respects you.
 
 Read [../00-shared-standards.md](../00-shared-standards.md) and
-[../01-growth-playbook.md](../01-growth-playbook.md) first. Standalone repo (`sets`),
-local-first, zero network. Noise's anti-subscription thesis applied to the gym.
+[../01-growth-playbook.md](../01-growth-playbook.md) first. Standalone repo (`sets`).
+Noise's anti-subscription thesis applied to the gym.
+
+> **Policy revision (2026-07):** per shared standards §1.2/§9, this app now includes Firebase
+> Analytics + Crashlytics and AdMob banners with the Remove-Ads IAP and full consent stack —
+> the "zero network" claim below is superseded; regenerate store/privacy copy at
+> implementation (§9.5 sweep). "No subscription. Ever." remains true and remains the brand.
+> Placement per §9.1: the live-logging screen is a capture flow and therefore ad-free —
+> banners live on history/templates/settings; §9.3 forbids weights/reps/exercise choices in
+> event params (usage events only).
 
 ## 1. Product
 

@@ -14,8 +14,16 @@ tracker without bank linking." "Weather alerts without daily spam." Rules:
   guideline 2.3.7 and Play metadata policy both bite; rejections cost weeks).
 - Competitor-comparison language ("X alternative") lives on the web landing page (§6), where
   it is allowed and is exactly what people search.
-- The privacy/quiet stance is a feature — it appears in the subtitle or short description of
-  every app, not buried in the long description.
+- The quiet/no-account stance is a feature — it appears in the subtitle or short description
+  of every app, not buried in the long description.
+- **Refusals that remain claimable (2026-07 ads revision):** no accounts, no subscriptions,
+  no bank/email linking, no lead-gen, no data *selling*, quiet notifications. **"No ads" and
+  "no analytics/no data collected" are no longer claimable anywhere** — apps carry AdMob
+  banners and Firebase telemetry per shared standards §9. The honest replacement line, used
+  portfolio-wide: *"Free, with light banner ads — one purchase removes them forever."* Every
+  per-app "Adoption & monetization" draft written before this revision must be swept for
+  stale claims at implementation (shared standards §9.5); the per-app keywords, channels,
+  and review moments remain valid.
 
 ## 2. Store identity mechanics
 
@@ -116,51 +124,75 @@ Rules the agent must apply to each app's assets:
    newsletters, personal-finance newsletters (calculators), parenting newsletters (Recall
    Watch, First Years).
 
-## 8. Monetization optimization
+## 8. Monetization optimization (2026-07 ads revision)
 
-Launch state: everything free, `hasFeature()` seam everywhere (shared standards §6).
+Launch state: **free with adaptive banner ads + a Remove-Ads one-time IAP ($2.99–$4.99,
+Family Sharing ON), shipped in the MVP** — placements, consent, and formats per shared
+standards §9; billing per §2/§6 there. All *features* remain free at launch; the
+`hasFeature()` seam carries both `'no-ads'` (live) and future Pro flags.
 
-**Flip criteria — flip an app to Pro only when all three hold:**
+**Remove-Ads price anchors:** $2.99 default; $3.99–$4.99 for the deep-engine calculators
+(RSU Planner, Headroom class). Localized tiers: ₹99–₹199 India, and EUR/GBP/CAD/AUD store
+equivalents.
+
+**Pro feature unlocks (later, optional) — flip criteria unchanged, all three:**
 1. ≥60 days in market with stable or growing weekly organic installs;
-2. retention curve plateaued (consoles' retention view) — i.e., a durable user base exists;
-3. ≥3 independent organic requests (reviews/emails) clustering on a Pro-candidate feature.
+2. retention curve plateaued — a durable user base exists;
+3. ≥3 independent organic requests clustering on a Pro-candidate feature.
+Pro pricing per the original family anchors ($4.99–$9.99 one-time); Pro purchase always
+includes Remove-Ads.
 
-**Model by family:**
-- Calculators, life-admin, standalone: **one-time Pro unlock**, $4.99–$7.99 anchor ($9.99 for
-  RSU Planner and Headroom — high-income audiences, deep engines). Family Sharing ON.
-- Quiet-alerts: core free forever; optional **Supporter/Pro annual** $5.99–$11.99/yr, paywall
-  copy states the real reason: "servers and data feeds cost money; this keeps the app quiet
-  and ad-free." Breach Watch is the sanctioned exception that may gate capacity (extra
-  monitored emails) earlier — it has real per-user API cost (its plan details this).
+**Quiet-alerts server costs:** the optional Supporter annual ($5.99–$11.99/yr) remains
+available where infrastructure costs are real (Breach Watch's early capacity gating stands);
+Supporter also includes Remove-Ads, and its paywall copy states the real reason: "servers
+and data feeds cost money."
 
-**Iron rules:**
-- Never move a launched-free feature behind the paywall. Grandfather everything, loudly —
-  early adopters become the marketing.
-- Pro adds *new power features* from each plan's "Pro candidates" list only.
-- No ads, ever, as a monetization pivot. No "remove ads" tier can exist because ads can't.
-- Paywall screen (when it exists): one screen, full feature list, one price, no countdown
-  timers, no fake discounts, no trial-that-autoconverts. The quiet brand extends to the
-  paywall.
-- Implementation when flipping: RevenueCat or bare StoreKit 2 / Play Billing — decide then;
-  the `hasFeature()` seam means this is an additive change.
+**Iron rules (revised):**
+- Never move a launched-free *feature* behind a paywall. Grandfather everything, loudly.
+- A `'no-ads'` purchaser never sees another ad surface — including house ads — across
+  reinstalls (store restore path tested every release).
+- Banner-only forever is the format ceiling; interstitials/rewarded/app-open are not a
+  future "optimization" (shared standards §9.1). Ad density never increases post-launch on
+  an installed base — that's the enshittification move this portfolio exists to reject.
+- Paywall/Remove-Ads screen: one screen, one price, what it does, no countdown timers, no
+  fake discounts, no trial-that-autoconverts. The quiet brand extends to the paywall.
 
-## 9. Measurement without surveillance
+## 9. Measurement (2026-07 revision: Firebase-instrumented, content-blind)
 
-- Sources: App Store Connect and Play Console analytics only. No in-app analytics SDKs
-  (charter). Accept the blindness; the stores' data is enough to steer.
-- Weekly 20-minute ritual per live app: impressions → product-page conversion rate, search
-  terms driving impressions, retention curves, review themes. Output: at most ONE metadata or
-  product adjustment per app per week.
-- Success definitions live in each plan; as a portfolio default: product-page conversion ≥25%
-  (niche apps with tight keyword targeting should beat this), week-4 retention above category
-  norm, review rating ≥4.6 sustained.
+- Sources: **Firebase Analytics + Crashlytics** (usage, retention, funnels, stability) plus
+  App Store Connect / Play Console (impressions, conversion, search terms) plus AdMob
+  (eCPM, fill, Remove-Ads conversion pressure). The content/usage wall of shared standards
+  §9.3 is absolute: we measure *what people do*, never *what they entered*.
+- Per-app event taxonomy lives in `docs/analytics-events.md` and is designed before code:
+  each event names the decision it informs (activation step completed? core loop repeated?
+  which screen precedes drop-off?). If an event answers no decision, it isn't logged.
+- Weekly 20-minute ritual per live app: activation funnel + week-4 retention (Firebase),
+  crash-free rate (Crashlytics), page conversion + search terms (consoles), ads eCPM vs
+  Remove-Ads take-rate. Output: at most ONE metadata or product adjustment per app per week.
+- Portfolio defaults: product-page conversion ≥25%, week-4 retention above category norm,
+  review rating ≥4.6 sustained, crash-free users ≥99.5% — and Remove-Ads take-rate tracked
+  as the honesty metric: rising take-rate with stable ratings means ads are tolerable;
+  rising take-rate with falling ratings means placements are wrong. Fix placements; never
+  add ad density (playbook §8 iron rule).
 
 ## 10. Pre-flight checklist (every release)
 
 - [ ] Name/subtitle/keyword/short-desc within limits; keyword field de-duped against name+subtitle
 - [ ] Trademark + store-collision + domain search done for the final name
 - [ ] Screenshots light+dark, captions per §3, "never manifest" shot for quiet-alerts apps
-- [ ] Privacy questionnaire answers match the architecture (and the privacy policy page)
+- [ ] **Stale-claims sweep (§1 / shared standards §9.5):** no "no ads / ad-free / no
+      analytics / no data collected / zero-network" language survives in metadata,
+      screenshots, privacy pages, or in-app manifests
+- [ ] Privacy questionnaire/labels declare Identifiers, Usage Data, Diagnostics, and
+      advertising data; iOS ATT usage string present; answers match the privacy policy page
+- [ ] UMP consent flow configured in the AdMob console and tested with EEA test geography;
+      ATT pre-prompt + system prompt verified; non-personalized fallback confirmed
+- [ ] `app-ads.txt` live on the umbrella domain; AdMob seller verification complete
+- [ ] Remove-Ads purchase and store restore path tested on both platforms; purchaser sees
+      zero ad surfaces; ad slots collapse cleanly offline
+- [ ] Test-device IDs / test ad units used throughout dev; Crashlytics symbol upload (dSYM /
+      mapping) wired into the EAS build
+- [ ] `docs/analytics-events.md` and `docs/ad-placements.md` exist and match the build
 - [ ] Landing page live with structured data; support + privacy URLs set in both consoles
 - [ ] Review-prompt moment implemented via native API with the plan's exclusions honored
 - [ ] Cross-promo screen lists only live apps

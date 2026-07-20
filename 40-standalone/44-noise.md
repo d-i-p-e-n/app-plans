@@ -4,9 +4,17 @@
 for $70 a year.
 
 Read [../00-shared-standards.md](../00-shared-standards.md) and
-[../01-growth-playbook.md](../01-growth-playbook.md) first. Standalone repo (`noise`),
-local-only, zero network. The portfolio's purest anti-subscription statement and its most
-mass-market app.
+[../01-growth-playbook.md](../01-growth-playbook.md) first. Standalone repo (`noise`).
+The portfolio's purest anti-subscription statement and its most mass-market app.
+
+> **Policy revision (2026-07):** per shared standards §1.2/§9, this app now includes Firebase
+> Analytics + Crashlytics and AdMob banners with the Remove-Ads IAP and full consent stack —
+> the "zero network" and "ad-free" claims below are superseded; regenerate store/privacy copy
+> at implementation (§9.5 sweep). The anti-*subscription* positioning ("No subscription.
+> Ever.") remains true and remains the brand; "never sends a notification" also survives.
+> Placement call per §9.1: the night-time playback screen is an ad-free surface (a lit banner
+> in a dark bedroom is a one-star generator) — banners live on the sound-browsing/settings
+> surfaces, and the Remove-Ads purchase is expected to be this app's main revenue.
 
 ## 1. Product
 

@@ -5,8 +5,16 @@ one private place, with a one-tap intake sheet for every new-patient clipboard.
 
 Read [../00-shared-standards.md](../00-shared-standards.md),
 [00-family-overview.md](00-family-overview.md), and
-[../01-growth-playbook.md](../01-growth-playbook.md) first. HSA/FSA-Vault-tier privacy posture
-(no third-party SDKs at all); the adult/family sibling of First Years' visit-prep concept.
+[../01-growth-playbook.md](../01-growth-playbook.md) first. The adult/family sibling of First
+Years' visit-prep concept.
+
+> **Policy revision (2026-07):** per shared standards §1.2/§9, this app now includes Firebase
+> Analytics + Crashlytics and AdMob banners with the Remove-Ads IAP and full consent stack —
+> the "no third-party SDKs" posture stated below is superseded; regenerate privacy/store copy
+> at implementation (§9.5 sweep). §9.3's content wall is at its strictest here: no medication,
+> allergy, condition, or provider data in any event or crash key. The §1 medical-adjacency
+> wall (no interpretation, ever) is untouched. Placement per §9.1: person records and all
+> export/ER-sheet surfaces are ad-free; banners live on the people list and settings.
 
 ## 1. Product
 

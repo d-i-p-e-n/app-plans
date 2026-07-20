@@ -7,6 +7,14 @@ Read [../00-shared-standards.md](../00-shared-standards.md) and
 [00-family-overview.md](00-family-overview.md) first. Third app in the family; first user of
 PDF export.
 
+> **Policy revision (2026-07):** per shared standards §1.2/§9, this app now includes Firebase
+> Analytics + Crashlytics and AdMob banners with the Remove-Ads IAP and full consent stack —
+> the "no third-party SDKs at all" line in this document's risks section is superseded;
+> regenerate privacy/store copy at implementation (§9.5 sweep). §9.3's content wall applies at
+> medical strictness: no provider, amount, or category data in events. Placement per §9.1:
+> receipt capture and the PDF-packet flow are ad-free; banners live on the accounts list and
+> settings.
+
 ## 1. Product
 
 - **Audience:** the tens of millions of US workers with an HSA or FSA. Two very different jobs,

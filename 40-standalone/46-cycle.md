@@ -4,10 +4,20 @@
 to subpoena or sell, ever.
 
 Read [../00-shared-standards.md](../00-shared-standards.md) and
-[../01-growth-playbook.md](../01-growth-playbook.md) first. Standalone repo (`cycle`),
-local-only, **zero network enforced in CI** (First Years pattern). **This app carries the
-highest privacy stakes and the strictest scope walls in the portfolio — §2 is the product
-and §6 is a release gate.**
+[../01-growth-playbook.md](../01-growth-playbook.md) first. Standalone repo (`cycle`).
+**This app carries the highest privacy stakes and the strictest scope walls in the
+portfolio — §2 is the product and §6 is a release gate.**
+
+> **Policy revision (2026-07):** per shared standards §1.2/§9, this app now includes Firebase
+> Analytics + Crashlytics and AdMob banners with the Remove-Ads IAP and full consent stack.
+> This supersedes the zero-network CI gate, the "what we could hand over: nothing" positioning,
+> and all store/privacy copy below — regenerate every claim at implementation (§9.5 sweep),
+> and rewrite the market positioning honestly (the privacy pitch must describe the telemetry
+> that exists; overclaiming here has real-world stakes). **Non-negotiables that survive:** the
+> §2 scope walls (not contraception, not diagnosis, humble estimates), §9.3's content wall at
+> its strictest (no cycle dates, flow, or symptom data in any event or crash key — usage
+> events only), free discreet mode + app lock, and ad-free placement on all logging/calendar
+> surfaces (§9.1 capture-flow rule; banners live on settings/stats surfaces only).
 
 ## 1. Product
 

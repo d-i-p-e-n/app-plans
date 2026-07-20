@@ -8,8 +8,20 @@ TypeScript monorepos, dependency-free domain engines with golden regression test
 backend is required) Supabase, following the patterns proven in Only Breaking
 (`C:\Users\djpatel\Documents\Code\headlines`).
 
-Every app shares one product philosophy: **single-purpose, quiet, no accounts, no ads, no data
-harvesting.** Each app wins by refusing to do things incumbents are structurally forced to do.
+Every app shares one product philosophy: **single-purpose, quiet, no accounts, no
+subscriptions, no bank linking, no data selling** — free with light banner ads, one purchase
+removes them forever. Each app wins by refusing the *rest* of what incumbents do.
+
+> **Policy revision (2026-07): ads & analytics.** Every app now ships Firebase Analytics +
+> Crashlytics and AdMob banner ads with a Remove-Ads one-time IAP, under the placement,
+> consent (UMP + ATT), and content-blind event rules in
+> [00-shared-standards.md](00-shared-standards.md) §9 and the revised monetization/
+> measurement playbook ([01-growth-playbook.md](01-growth-playbook.md) §8–§9). **Individual
+> app plans largely predate this decision — wherever a plan says "no ads," "no analytics,"
+> "no data collected," "zero third-party SDKs," or "zero-network," the §9 standard
+> supersedes it**, and the implementing agent regenerates store copy, privacy pages, and
+> in-app manifests accordingly at build time (this is enforced in the `implement-app`
+> skill). Per-plan keywords, channels, review moments, and Pro candidates remain valid.
 
 ## How to use these plans (instructions for an implementing AI agent)
 

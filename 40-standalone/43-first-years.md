@@ -5,8 +5,16 @@ from CDC/AAP, stored only on your phone, with zero ads, zero community, zero anx
 
 Read [../00-shared-standards.md](../00-shared-standards.md) and
 [../01-growth-playbook.md](../01-growth-playbook.md) first. Standalone repo (`first-years`),
-local-first, **zero network** (the only fully offline-by-design app in the portfolio — that is
-the product). Copy in `local-core` patterns like Shift Life/Big Buttons.
+local-first. Copy in `local-core` patterns like Shift Life/Big Buttons.
+
+> **Policy revision (2026-07):** per shared standards §1.2/§9, this app now includes Firebase
+> Analytics + Crashlytics and AdMob banners with the Remove-Ads IAP and full consent stack —
+> the "zero network / zero ads" claims in this document (including the one-sentence pitch and
+> store copy) are superseded and must be regenerated at implementation (§9.5 sweep). The §9.3
+> content wall is critical here: no child data, milestone statuses, or health entries ever
+> appear in analytics events. Milestone/"act early" and visit-prep surfaces are ad-free
+> placements per §9.1 (crisis/safety rule). The CDC/AAP-verbatim content discipline and
+> anti-anxiety product rules remain fully in force.
 
 ## 1. Product
 
