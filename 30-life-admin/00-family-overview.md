@@ -1,13 +1,13 @@
 # Life-Admin Family — Overview
 
-One monorepo (`life-admin`), eleven apps, **no backend at all**. The family thesis: incumbents
+One monorepo (`life-admin`), fourteen apps, **no backend at all**. The family thesis: incumbents
 solved these problems by demanding bank logins, email scraping, or cloud accounts, and a large
 population noped out. We solve them with fast manual entry, on-device storage, local scheduled
 notifications, and honest export. **"We can't see your data" is the marketing, and the
 architecture must make it literally true.**
 
 Apps: Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault,
-Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks.
+Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks, Applied, Sow, Miles.
 
 ## Monorepo layout
 
@@ -23,6 +23,9 @@ apps/pet-papers/
 apps/health-binder/
 apps/contents/
 apps/card-perks/
+apps/applied/
+apps/sow/
+apps/miles/
 packages/domain-<app>/        Pure logic: deadline math, notification decisions, totals
 packages/local-core/          Shared: sqlite DAO helpers, notification scheduler, photo store,
                               backup/export engine
@@ -76,4 +79,7 @@ generation — heaviest document output). The second wave reuses everything: Exp
 (photo store + PDF export reuse), Home Rhythm (adds the schedule-generator dataset pattern).
 Third wave: Health Binder and Card Perks (pure reuse of PDF/reminder machinery, dataset-driven);
 Contents must follow Deposit Defense — its phase 1 extracts that app's capture/integrity/report
-engine into `local-core` for both to share.
+engine into `local-core` for both to share. Fourth wave, all pure reuse: Applied (pipeline +
+reminders), Sow (Home Rhythm's dataset-generator pattern), Miles (templates + PDF export; its
+mileage-rate table lives in the calculators repo's `tax-data` — copy the versioned data file in,
+don't create a cross-repo dependency).

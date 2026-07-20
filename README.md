@@ -1,6 +1,6 @@
 # App Plans
 
-Implementation-ready plan documents for a portfolio of 29 mobile apps (iOS + Android), all built on
+Implementation-ready plan documents for a portfolio of 35 mobile apps (iOS + Android), all built on
 the same stack as the Options Pricing Suite (`C:\dev\OptionPricer`): Expo + React Native +
 TypeScript monorepos, dependency-free domain engines with golden regression tests, and (where a
 backend is required) Supabase, following the patterns proven in Only Breaking
@@ -25,16 +25,17 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 6. Keep a `STATUS.md` at the repo root current as you work (what is implemented, what remains,
    continuation instructions for the next agent) — same convention as the headlines repo.
 
-## Repo map (5 app repos + 1 web repo)
+## Repo map (6 app repos + 1 web repo)
 
 | Repo | Apps | Backend |
 |---|---|---|
-| `quiet-alerts` | Recall Watch, Quiet Weather, Air & Allergy, Holdings Calendar, Streaming Arrivals, Breach Watch, Quake Watch | One shared Supabase project |
-| `calculators` | RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff, Rent or Buy | None (fully local; optional read-only public data fetches) |
-| `life-admin` | Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault, Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks | None (local-first, local notifications) |
+| `quiet-alerts` | Recall Watch, Quiet Weather, Air & Allergy, Holdings Calendar, Streaming Arrivals, Breach Watch, Quake Watch, Shortage Watch | One shared Supabase project |
+| `calculators` | RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff, Rent or Buy, Snowball | None (fully local; optional read-only public data fetches) |
+| `life-admin` | Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault, Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks, Applied, Sow, Miles | None (local-first, local notifications) |
 | `shift-life` | Shift Life | None (local-first) |
 | `big-buttons` | Big Buttons | None (local-first) |
-| _(standalone repo)_ | First Years | None (local-first, zero-network) |
+| `first-years` | First Years | None (local-first, zero-network) |
+| `noise` | Noise | None (local-only, zero-network, no notifications) |
 | `quiet-site` | Umbrella marketing/SEO site (one page per app) | Static (Cloudflare Pages) |
 
 ## Documents
@@ -51,6 +52,7 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [10-quiet-alerts/15-streaming-arrivals.md](10-quiet-alerts/15-streaming-arrivals.md) — "your show is now on a service you pay for"
 - [10-quiet-alerts/16-breach-watch.md](10-quiet-alerts/16-breach-watch.md) — one push when your email appears in a new data breach
 - [10-quiet-alerts/17-quake-watch.md](10-quiet-alerts/17-quake-watch.md) — earthquakes above your threshold near places you love
+- [10-quiet-alerts/18-shortage-watch.md](10-quiet-alerts/18-shortage-watch.md) — FDA drug-shortage alerts; med list never leaves the phone
 
 ### calculators family
 - [20-calculators/00-family-overview.md](20-calculators/00-family-overview.md) — shared engine/testing conventions, tax-data packages
@@ -62,6 +64,7 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [20-calculators/26-headroom.md](20-calculators/26-headroom.md) — Roth-conversion / bracket & IRMAA headroom
 - [20-calculators/27-payoff.md](20-calculators/27-payoff.md) — mortgage extra-payment / recast / refi math without lead-gen
 - [20-calculators/28-rent-or-buy.md](20-calculators/28-rent-or-buy.md) — rent-vs-buy with every assumption visible
+- [20-calculators/29-snowball.md](20-calculators/29-snowball.md) — debt payoff planner with no loan ads and no judgment
 
 ### life-admin family
 - [30-life-admin/00-family-overview.md](30-life-admin/00-family-overview.md) — local-first storage, local notifications, receipt/photo conventions
@@ -76,11 +79,15 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [30-life-admin/39-health-binder.md](30-life-admin/39-health-binder.md) — family med lists, allergies & one-tap intake sheets
 - [30-life-admin/3a-contents.md](30-life-admin/3a-contents.md) — home inventory for insurance claims, before you need it
 - [30-life-admin/3b-card-perks.md](30-life-admin/3b-card-perks.md) — credit-card fees & expiring credits, no bank linking
+- [30-life-admin/3c-applied.md](30-life-admin/3c-applied.md) — private job-search tracker, no cloud, no LinkedIn
+- [30-life-admin/3d-sow.md](30-life-admin/3d-sow.md) — personal planting calendar from your frost dates
+- [30-life-admin/3e-miles.md](30-life-admin/3e-miles.md) — IRS-ready mileage log with zero background tracking
 
 ### standalone
 - [40-standalone/41-shift-life.md](40-standalone/41-shift-life.md) — rotating-shift calendar & sleep planner
 - [40-standalone/42-big-buttons.md](40-standalone/42-big-buttons.md) — elder-first single-purpose tool suite
 - [40-standalone/43-first-years.md](40-standalone/43-first-years.md) — quiet baby milestones, vaccine schedule & well-visit prep
+- [40-standalone/44-noise.md](40-standalone/44-noise.md) — sleep sounds that never ask for $70 a year
 
 ## Recommended build order
 
@@ -91,12 +98,14 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 3. **RSU Planner** (calculators) — proves the calculators family scaffold and the tax-data package
    pattern.
 4. Remaining apps in any order; each additional family app should cost a fraction of its family's
-   first. `quiet-site` goes live with the first app launch (playbook §6–7). Among the newer
-   plans: **Expiry Vault** and **First Years** have the strongest gap-to-effort ratios;
-   **Quake Watch** is the cheapest quiet-alerts add once the pipeline exists; **Contents** must
-   follow Deposit Defense (it extracts that app's capture engine); **Payoff** should precede
-   **Rent or Buy** (shared amortization/PMI engine); **Breach Watch** has the strongest
-   launch-channel story but carries real API cost — read its plan's cost section first.
+   first. `quiet-site` goes live with the first app launch (playbook §6–7). Sequencing notes
+   among the newer plans: **Expiry Vault** and **First Years** have the strongest gap-to-effort
+   ratios; **Quake Watch** is the cheapest quiet-alerts add; **Shortage Watch** documents a
+   deliberate on-device-matching deviation — read it before assuming the family pattern;
+   **Contents** must follow Deposit Defense (it extracts that app's capture engine); **Payoff**
+   precedes **Rent or Buy**; **Quarterly** and **Miles** are a natural pair sharing audience and
+   `tax-data`; **Noise** is gated on its playback-engineering spike; **Breach Watch** carries
+   real API cost — read its plan's cost section first.
 
 ## Evaluated but not planned (backlog)
 
@@ -114,6 +123,15 @@ sessions don't re-litigate them from scratch:
   future Deposit Defense companion feature instead of an app.
 - **Freezer/pantry inventory** — entry friction violates the <20-second capture bar at grocery
   scale; no honest fix found.
+- **Next Dollar (order-of-operations money flowchart)** — appealing and famous (the r/pf prime
+  directive), but its entire output is "do X with your money next," which crosses the
+  portfolio's no-personalized-advice line that Claiming Age/Headroom carefully stay behind.
+  Permanently out unless a purely educational framing survives a copy audit.
+- **Timezone meeting planner** — well-served by free web tools; no enshittification wedge.
+- **Roommate expense splitter** — the job requires multi-party sync, which requires accounts;
+  structural conflict with the charter. Out.
+- **Recipe clipper** — the category has well-loved, fairly-priced incumbents (Paprika-class);
+  not a hated market, so the refusal-positioning has nothing to push against.
 
 All names are working titles; check App Store / Play Store availability and trademarks before
 release (playbook §10).
