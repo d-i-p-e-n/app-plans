@@ -1,8 +1,9 @@
 # App Plans
 
-Implementation-ready plan documents for a portfolio of 35 US-market mobile apps plus an
-international calculators expansion (14 flagship-wave apps across Canada, India, the UK, and
-Australia), all built on the same stack as the Options Pricing Suite (`C:\dev\OptionPricer`): Expo + React Native +
+Implementation-ready plan documents for a portfolio of 37 US-market mobile apps plus a
+20-app international expansion — calculators for Canada, India, the UK, and Australia, and an
+EU/Germany program (calculators + quiet-alerts) with its own regulatory framework — all built
+on the same stack as the Options Pricing Suite (`C:\dev\OptionPricer`): Expo + React Native +
 TypeScript monorepos, dependency-free domain engines with golden regression tests, and (where a
 backend is required) Supabase, following the patterns proven in Only Breaking
 (`C:\Users\djpatel\Documents\Code\headlines`).
@@ -31,7 +32,7 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 | Repo | Apps | Backend |
 |---|---|---|
 | `quiet-alerts` | Recall Watch, Quiet Weather, Air & Allergy, Holdings Calendar, Streaming Arrivals, Breach Watch, Quake Watch, Shortage Watch | One shared Supabase project |
-| `calculators` | RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff, Rent or Buy, Snowball | None (fully local; optional read-only public data fetches) |
+| `calculators` | RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff, Rent or Buy, Snowball, Aid Index, Sixty-Five | None (fully local; optional read-only public data fetches) |
 | `life-admin` | Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault, Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks, Applied, Sow, Miles | None (local-first, local notifications) |
 | `shift-life` | Shift Life | None (local-first) |
 | `big-buttons` | Big Buttons | None (local-first) |
@@ -41,6 +42,8 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 | `calculators-in` | In-Hand, Advance Tax, Prepay, FD Ladder (+ wave-2 ports) | None (fully local) |
 | `calculators-uk` | Take-Home, Cliffs, Remortgage (+ wave-2 ports) | None (fully local) |
 | `calculators-au` | Take-Home AU, Cap Room, Offset (+ wave-2 ports) | None (fully local) |
+| `calculators-de` | Brutto-Netto, ETF-Steuer, Elterngeld (+ wave-2) — German-first | None (fully local) |
+| `quiet-alerts-eu` | Rückruf-Radar, Leises Wetter, Engpass-Radar (+ wave-2) — German-first | Own Supabase project, EU region (GDPR posture per 60-eu overview) |
 | `quiet-site` | Umbrella marketing/SEO site (one page per app, country pages under /ca /in /uk) | Static (Cloudflare Pages) |
 
 ## Documents
@@ -70,6 +73,8 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [20-calculators/27-payoff.md](20-calculators/27-payoff.md) — mortgage extra-payment / recast / refi math without lead-gen
 - [20-calculators/28-rent-or-buy.md](20-calculators/28-rent-or-buy.md) — rent-vs-buy with every assumption visible
 - [20-calculators/29-snowball.md](20-calculators/29-snowball.md) — debt payoff planner with no loan ads and no judgment
+- [20-calculators/2a-aid-index.md](20-calculators/2a-aid-index.md) — FAFSA Student Aid Index from the published formula, no lead-gen
+- [20-calculators/2b-sixty-five.md](20-calculators/2b-sixty-five.md) — Medicare enrollment windows & penalty math, nothing to sell
 
 ### life-admin family
 - [30-life-admin/00-family-overview.md](30-life-admin/00-family-overview.md) — local-first storage, local notifications, receipt/photo conventions
@@ -101,6 +106,11 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [50-intl-calculators/53-calculators-uk.md](50-intl-calculators/53-calculators-uk.md) — Take-Home (plans + Scotland), Cliffs (£100k/childcare/HICBC), Remortgage
 - [50-intl-calculators/54-calculators-australia.md](50-intl-calculators/54-calculators-australia.md) — Take-Home AU (HECS + super), Cap Room (caps/carry-forward/Div 293), Offset (redraw tax trap)
 
+### EU program
+- [60-eu/00-eu-overview.md](60-eu/00-eu-overview.md) — Germany-first strategy + the EU regulatory framework (GDPR incl. Art. 27, Impressum, EAA, CRA timeline, MDR scope-avoidance, StBerG/RDG advice walls)
+- [60-eu/61-calculators-germany.md](60-eu/61-calculators-germany.md) — Brutto-Netto (Programmablaufplan oracle), ETF-Steuer (Vorabpauschale/Freistellungsauftrag), Elterngeld planner
+- [60-eu/62-quiet-alerts-eu.md](60-eu/62-quiet-alerts-eu.md) — Rückruf-Radar (Safety Gate/RASFF), Leises Wetter (DWD/MeteoAlarm), Engpass-Radar (BfArM) on an EU-region backend
+
 ## Recommended build order
 
 1. **Renewals** (life-admin) — smallest surface, zero backend, proves the local-notification and
@@ -121,6 +131,11 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 5. **International calculators** start only after the US calculators flagship is live, one
    country at a time (Canada → India → UK → Australia), per the sequencing and update-burden
    rules in [50-intl-calculators/00-intl-overview.md](50-intl-calculators/00-intl-overview.md) §5.
+6. **The EU program** sequences independently (it is not "country five" of the calculators
+   line): Germany calculators first — no backend, no Art. 27 question — then the EU
+   quiet-alerts backend only after the GDPR checklist in
+   [60-eu/00-eu-overview.md](60-eu/00-eu-overview.md) §3.1 is fully ticked. Other EU
+   countries need their own investigation docs before any planning.
 
 ## Evaluated but not planned (backlog)
 

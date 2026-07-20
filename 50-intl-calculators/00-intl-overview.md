@@ -94,7 +94,9 @@ season must be survivable (the runbooks are the constraint, not the engines).
 
 ## 6. Evaluated, deferred
 
-- **Germany/EU** — Lohnsteuer complexity is high and the advice-regulation environment is
-  stricter; needs its own investigation before planning.
+- **Germany/EU** — now planned: the regulatory investigation and the German program
+  (Brutto-Netto, ETF-Steuer, Elterngeld, plus EU quiet-alerts) live in
+  [../60-eu/00-eu-overview.md](../60-eu/00-eu-overview.md). Other EU countries remain
+  deferred pending per-country investigations.
 - **Quebec-specific depth** (QPP/QPIP/Revenu Québec) — planned as phase 2 inside the Canada
   repo, not a separate product; the Canada plan flags every QC divergence.
