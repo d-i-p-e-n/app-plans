@@ -1,6 +1,6 @@
 # App Plans
 
-Implementation-ready plan documents for a portfolio of 37 US-market mobile apps plus a
+Implementation-ready plan documents for a portfolio of 43 US-market mobile apps plus a
 20-app international expansion — calculators for Canada, India, the UK, and Australia, and an
 EU/Germany program (calculators + quiet-alerts) with its own regulatory framework — all built
 on the same stack as the Options Pricing Suite (`C:\dev\OptionPricer`): Expo + React Native +
@@ -32,12 +32,14 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 | Repo | Apps | Backend |
 |---|---|---|
 | `quiet-alerts` | Recall Watch, Quiet Weather, Air & Allergy, Holdings Calendar, Streaming Arrivals, Breach Watch, Quake Watch, Shortage Watch | One shared Supabase project |
-| `calculators` | RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff, Rent or Buy, Snowball, Aid Index, Sixty-Five | None (fully local; optional read-only public data fetches) |
-| `life-admin` | Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault, Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks, Applied, Sow, Miles | None (local-first, local notifications) |
+| `calculators` | RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff, Rent or Buy, Snowball, Aid Index, Sixty-Five, Payback | None (fully local; optional read-only public data fetches) |
+| `life-admin` | Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault, Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks, Applied, Sow, Miles, In Case, Balance, Stash | None (local-first, local notifications) |
 | `shift-life` | Shift Life | None (local-first) |
 | `big-buttons` | Big Buttons | None (local-first) |
 | `first-years` | First Years | None (local-first, zero-network) |
 | `noise` | Noise | None (local-only, zero-network, no notifications) |
+| `sets` | Sets | None (local-only, zero-network) |
+| `cycle` | Cycle | None (local-only, zero-network enforced in CI) |
 | `calculators-ca` | CPP Timing, Paycheque, Renewal, Room (+ wave-2 ports) | None (fully local) |
 | `calculators-in` | In-Hand, Advance Tax, Prepay, FD Ladder (+ wave-2 ports) | None (fully local) |
 | `calculators-uk` | Take-Home, Cliffs, Remortgage (+ wave-2 ports) | None (fully local) |
@@ -75,6 +77,7 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [20-calculators/29-snowball.md](20-calculators/29-snowball.md) — debt payoff planner with no loan ads and no judgment
 - [20-calculators/2a-aid-index.md](20-calculators/2a-aid-index.md) — FAFSA Student Aid Index from the published formula, no lead-gen
 - [20-calculators/2b-sixty-five.md](20-calculators/2b-sixty-five.md) — Medicare enrollment windows & penalty math, nothing to sell
+- [20-calculators/2c-payback.md](20-calculators/2c-payback.md) — solar-quote math on NREL's public model, no lead form
 
 ### life-admin family
 - [30-life-admin/00-family-overview.md](30-life-admin/00-family-overview.md) — local-first storage, local notifications, receipt/photo conventions
@@ -92,12 +95,17 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [30-life-admin/3c-applied.md](30-life-admin/3c-applied.md) — private job-search tracker, no cloud, no LinkedIn
 - [30-life-admin/3d-sow.md](30-life-admin/3d-sow.md) — personal planting calendar from your frost dates
 - [30-life-admin/3e-miles.md](30-life-admin/3e-miles.md) — IRS-ready mileage log with zero background tracking
+- [30-life-admin/3f-in-case.md](30-life-admin/3f-in-case.md) — the family-continuity binder with an encrypted sealed packet
+- [30-life-admin/3g-balance.md](30-life-admin/3g-balance.md) — PTO accruals, caps & use-it-or-lose-it, private from HR
+- [30-life-admin/3h-stash.md](30-life-admin/3h-stash.md) — gift-card balances & barcodes before they're wasted
 
 ### standalone
 - [40-standalone/41-shift-life.md](40-standalone/41-shift-life.md) — rotating-shift calendar & sleep planner
 - [40-standalone/42-big-buttons.md](40-standalone/42-big-buttons.md) — elder-first single-purpose tool suite
 - [40-standalone/43-first-years.md](40-standalone/43-first-years.md) — quiet baby milestones, vaccine schedule & well-visit prep
 - [40-standalone/44-noise.md](40-standalone/44-noise.md) — sleep sounds that never ask for $70 a year
+- [40-standalone/45-sets.md](40-standalone/45-sets.md) — a lifting log with no subscription, ever
+- [40-standalone/46-cycle.md](40-standalone/46-cycle.md) — a period tracker that provably stays on your phone
 
 ### international calculators
 - [50-intl-calculators/00-intl-overview.md](50-intl-calculators/00-intl-overview.md) — internationalization strategy: per-country apps/repos, tax-data localization, compliance & pricing deltas, country sequencing
@@ -142,9 +150,16 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 Ideas assessed during portfolio planning that did not clear the bar — recorded so future
 sessions don't re-litigate them from scratch:
 
-- **In Case (estate/emergency readiness binder)** — on-thesis and unserved, but the legal
-  adjacency and the overlap with Health Binder's directives-pointer need more thought; revisit
-  after Health Binder ships.
+- ~~**In Case**~~ — **promoted** to a full plan ([30-life-admin/3f-in-case.md](30-life-admin/3f-in-case.md)); the Health Binder overlap resolved as medical-vs-household-continuity.
+- **Aisle (wedding budget/checklist without vendor lead-gen)** — real enshittification to
+  push against (The Knot/Zola monetize couples as leads), but genuine co-planning needs
+  two-way sync between partners, which collides with the no-accounts charter; share-code
+  read-only isn't enough. Revisit only if a sync-without-accounts pattern proves out.
+- **Tax-season document checklist** ("did every W-2/1099 arrive?") — real but thin; better
+  as a future feature inside Quarterly or HSA/FSA Vault than an app.
+- **Blood-pressure/glucose log** — the clinical-log job is real (doctors ask for it), but it
+  belongs as a possible Health Binder module, not a standalone app; medical-adjacency walls
+  per that plan would govern.
 - **Price Watch (price-drop alerts)** — real gap, but retailer price data is scrape-hostile and
   Keepa-class APIs are paid + Amazon-only; revisit if a licensing path appears.
 - **Vote Window (nonpartisan election-deadline reminders)** — genuine quiet-alerts shape, but a

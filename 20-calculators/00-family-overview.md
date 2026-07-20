@@ -1,12 +1,12 @@
 # Calculators Family — Overview
 
-One monorepo (`calculators`), eleven apps, **no backend**. Every app is the OptionPricer shape:
+One monorepo (`calculators`), twelve apps, **no backend**. Every app is the OptionPricer shape:
 a dependency-free TypeScript engine with golden regression tests, wrapped in a small offline
 Expo app. If a question arises about engine/test discipline, the answer is "what does
 `packages/pricing-engine` in the Options Pricing Suite do?"
 
 Apps: RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff,
-Rent or Buy, Snowball, Aid Index, Sixty-Five. (International siblings of this family — Canada, India, UK — live in
+Rent or Buy, Snowball, Aid Index, Sixty-Five, Payback. (International siblings of this family — Canada, India, UK — live in
 their own repos and are planned in [../50-intl-calculators/](../50-intl-calculators/00-intl-overview.md);
 this US repo stays single-country.)
 
@@ -24,6 +24,7 @@ apps/rent-or-buy/
 apps/snowball/
 apps/aid-index/
 apps/sixty-five/
+apps/payback/
 packages/engine-rsu/           Pure TS engine + Jest + goldens
 packages/engine-paycheck/
 packages/engine-ladder/
@@ -35,6 +36,7 @@ packages/engine-rentbuy/
 packages/engine-snowball/
 packages/engine-sai/
 packages/engine-sixtyfive/
+packages/engine-payback/
 packages/tax-data/             Versioned US tax parameters (see below)
 packages/finmath/              Shared primitives: day counts, date math, rounding, currency fmt
 packages/ui/
@@ -106,4 +108,6 @@ Rent or Buy depends on `engine-payoff` (amortization/PMI) and the `tax-data` ite
 schedule it after Payoff. Snowball is standalone (its amortization is multi-debt-specific, not
 shared with Payoff) and can slot anywhere after the family scaffold exists. Aid Index is
 standalone (its own award-year data package). Sixty-Five shares Claiming Age's month-counting
-conventions (`engine-ssa` utilities) — schedule it after Claiming Age.
+conventions (`engine-ssa` utilities) — schedule it after Claiming Age. Payback is standalone
+(its PVWatts fetch follows Ladder's optional-network pattern) and can slot anywhere after the
+scaffold exists.

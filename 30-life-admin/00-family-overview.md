@@ -1,13 +1,14 @@
 # Life-Admin Family — Overview
 
-One monorepo (`life-admin`), fourteen apps, **no backend at all**. The family thesis: incumbents
+One monorepo (`life-admin`), seventeen apps, **no backend at all**. The family thesis: incumbents
 solved these problems by demanding bank logins, email scraping, or cloud accounts, and a large
 population noped out. We solve them with fast manual entry, on-device storage, local scheduled
 notifications, and honest export. **"We can't see your data" is the marketing, and the
 architecture must make it literally true.**
 
 Apps: Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault,
-Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks, Applied, Sow, Miles.
+Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks, Applied, Sow, Miles,
+In Case, Balance, Stash.
 
 ## Monorepo layout
 
@@ -26,6 +27,9 @@ apps/card-perks/
 apps/applied/
 apps/sow/
 apps/miles/
+apps/in-case/
+apps/balance/
+apps/stash/
 packages/domain-<app>/        Pure logic: deadline math, notification decisions, totals
 packages/local-core/          Shared: sqlite DAO helpers, notification scheduler, photo store,
                               backup/export engine
@@ -82,4 +86,7 @@ Contents must follow Deposit Defense — its phase 1 extracts that app's capture
 engine into `local-core` for both to share. Fourth wave, all pure reuse: Applied (pipeline +
 reminders), Sow (Home Rhythm's dataset-generator pattern), Miles (templates + PDF export; its
 mileage-rate table lives in the calculators repo's `tax-data` — copy the versioned data file in,
-don't create a cross-repo dependency).
+don't create a cross-repo dependency). Fifth wave: Balance and Stash (pure reuse — ledger +
+reminder machinery); In Case adds the family's one cryptography surface (the sealed packet —
+vetted library, its plan §3) and should follow Health Binder so the medical/household split
+lands as designed.
