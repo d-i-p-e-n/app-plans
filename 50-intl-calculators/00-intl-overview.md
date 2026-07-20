@@ -8,7 +8,8 @@ three remain binding; this document adds the internationalization decisions on t
 
 Country plans: [51-calculators-canada.md](51-calculators-canada.md),
 [52-calculators-india.md](52-calculators-india.md),
-[53-calculators-uk.md](53-calculators-uk.md).
+[53-calculators-uk.md](53-calculators-uk.md),
+[54-calculators-australia.md](54-calculators-australia.md).
 
 ## 1. Why calculators travel (and the other families mostly don't)
 
@@ -82,7 +83,9 @@ Ranked by (size of the underserved question × strength of the community channel
 availability): **Canada first** (published CRA payroll formulas are a gift of an oracle, and
 "when to take CPP" is a perennial lead-gen-infested question), **India second** (the single
 biggest gap-question in the set — CTC vs in-hand — and the largest audience, Android-first),
-**UK third** (the £100k trap cluster is uniquely well-shaped for Headroom's approach).
+**UK third** (the £100k trap cluster is uniquely well-shaped for Headroom's approach),
+**Australia fourth** (ATO also publishes withholding formulas; HECS and super-cap questions
+dominate r/AusFinance; its July tax year staggers the update season perfectly).
 
 Within each country: ship the flagship first (it's chosen for ASO pull), then wave-2 ports.
 Do not start a second country until the first country's flagship is live — the annual
@@ -91,8 +94,6 @@ season must be survivable (the runbooks are the constraint, not the engines).
 
 ## 6. Evaluated, deferred
 
-- **Australia** (take-home + super + HECS/HELP; negative-gearing rent-vs-buy) — strong fit,
-  good community (r/AusFinance); deferred only for update-burden reasons. Next after UK.
 - **Germany/EU** — Lohnsteuer complexity is high and the advice-regulation environment is
   stricter; needs its own investigation before planning.
 - **Quebec-specific depth** (QPP/QPIP/Revenu Québec) — planned as phase 2 inside the Canada
