@@ -6,7 +6,9 @@ Expo app. If a question arises about engine/test discipline, the answer is "what
 `packages/pricing-engine` in the Options Pricing Suite do?"
 
 Apps: RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff,
-Rent or Buy, Snowball.
+Rent or Buy, Snowball. (International siblings of this family — Canada, India, UK — live in
+their own repos and are planned in [../50-intl-calculators/](../50-intl-calculators/00-intl-overview.md);
+this US repo stays single-country.)
 
 ## Monorepo layout
 

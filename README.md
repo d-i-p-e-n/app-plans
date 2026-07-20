@@ -1,7 +1,8 @@
 # App Plans
 
-Implementation-ready plan documents for a portfolio of 35 mobile apps (iOS + Android), all built on
-the same stack as the Options Pricing Suite (`C:\dev\OptionPricer`): Expo + React Native +
+Implementation-ready plan documents for a portfolio of 35 US-market mobile apps plus an
+international calculators expansion (11 flagship-wave apps across Canada, India, and the UK),
+all built on the same stack as the Options Pricing Suite (`C:\dev\OptionPricer`): Expo + React Native +
 TypeScript monorepos, dependency-free domain engines with golden regression tests, and (where a
 backend is required) Supabase, following the patterns proven in Only Breaking
 (`C:\Users\djpatel\Documents\Code\headlines`).
@@ -36,7 +37,10 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 | `big-buttons` | Big Buttons | None (local-first) |
 | `first-years` | First Years | None (local-first, zero-network) |
 | `noise` | Noise | None (local-only, zero-network, no notifications) |
-| `quiet-site` | Umbrella marketing/SEO site (one page per app) | Static (Cloudflare Pages) |
+| `calculators-ca` | CPP Timing, Paycheque, Renewal, Room (+ wave-2 ports) | None (fully local) |
+| `calculators-in` | In-Hand, Advance Tax, Prepay, FD Ladder (+ wave-2 ports) | None (fully local) |
+| `calculators-uk` | Take-Home, Cliffs, Remortgage (+ wave-2 ports) | None (fully local) |
+| `quiet-site` | Umbrella marketing/SEO site (one page per app, country pages under /ca /in /uk) | Static (Cloudflare Pages) |
 
 ## Documents
 
@@ -89,6 +93,12 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [40-standalone/43-first-years.md](40-standalone/43-first-years.md) — quiet baby milestones, vaccine schedule & well-visit prep
 - [40-standalone/44-noise.md](40-standalone/44-noise.md) — sleep sounds that never ask for $70 a year
 
+### international calculators
+- [50-intl-calculators/00-intl-overview.md](50-intl-calculators/00-intl-overview.md) — internationalization strategy: per-country apps/repos, tax-data localization, compliance & pricing deltas, country sequencing
+- [50-intl-calculators/51-calculators-canada.md](50-intl-calculators/51-calculators-canada.md) — CPP Timing, Paycheque, Renewal (term shock/IRD), Room (RRSP/TFSA)
+- [50-intl-calculators/52-calculators-india.md](50-intl-calculators/52-calculators-india.md) — In-Hand (CTC + regimes), Advance Tax (44ADA), Prepay (EMI vs tenure), FD Ladder
+- [50-intl-calculators/53-calculators-uk.md](50-intl-calculators/53-calculators-uk.md) — Take-Home (plans + Scotland), Cliffs (£100k/childcare/HICBC), Remortgage
+
 ## Recommended build order
 
 1. **Renewals** (life-admin) — smallest surface, zero backend, proves the local-notification and
@@ -106,6 +116,9 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
    precedes **Rent or Buy**; **Quarterly** and **Miles** are a natural pair sharing audience and
    `tax-data`; **Noise** is gated on its playback-engineering spike; **Breach Watch** carries
    real API cost — read its plan's cost section first.
+5. **International calculators** start only after the US calculators flagship is live, one
+   country at a time (Canada → India → UK), per the sequencing and update-burden rules in
+   [50-intl-calculators/00-intl-overview.md](50-intl-calculators/00-intl-overview.md) §5.
 
 ## Evaluated but not planned (backlog)
 
