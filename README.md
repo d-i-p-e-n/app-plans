@@ -1,6 +1,6 @@
 # App Plans
 
-Implementation-ready plan documents for a portfolio of 23 mobile apps (iOS + Android), all built on
+Implementation-ready plan documents for a portfolio of 29 mobile apps (iOS + Android), all built on
 the same stack as the Options Pricing Suite (`C:\dev\OptionPricer`): Expo + React Native +
 TypeScript monorepos, dependency-free domain engines with golden regression tests, and (where a
 backend is required) Supabase, following the patterns proven in Only Breaking
@@ -29,9 +29,9 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 
 | Repo | Apps | Backend |
 |---|---|---|
-| `quiet-alerts` | Recall Watch, Quiet Weather, Air & Allergy, Holdings Calendar, Streaming Arrivals, Breach Watch | One shared Supabase project |
-| `calculators` | RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom | None (fully local; optional read-only public data fetches) |
-| `life-admin` | Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault, Home Rhythm, Glovebox, Pet Papers | None (local-first, local notifications) |
+| `quiet-alerts` | Recall Watch, Quiet Weather, Air & Allergy, Holdings Calendar, Streaming Arrivals, Breach Watch, Quake Watch | One shared Supabase project |
+| `calculators` | RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff, Rent or Buy | None (fully local; optional read-only public data fetches) |
+| `life-admin` | Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault, Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks | None (local-first, local notifications) |
 | `shift-life` | Shift Life | None (local-first) |
 | `big-buttons` | Big Buttons | None (local-first) |
 | _(standalone repo)_ | First Years | None (local-first, zero-network) |
@@ -50,6 +50,7 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [10-quiet-alerts/14-holdings-calendar.md](10-quiet-alerts/14-holdings-calendar.md) — earnings/dividend dates for a manual watchlist
 - [10-quiet-alerts/15-streaming-arrivals.md](10-quiet-alerts/15-streaming-arrivals.md) — "your show is now on a service you pay for"
 - [10-quiet-alerts/16-breach-watch.md](10-quiet-alerts/16-breach-watch.md) — one push when your email appears in a new data breach
+- [10-quiet-alerts/17-quake-watch.md](10-quiet-alerts/17-quake-watch.md) — earthquakes above your threshold near places you love
 
 ### calculators family
 - [20-calculators/00-family-overview.md](20-calculators/00-family-overview.md) — shared engine/testing conventions, tax-data packages
@@ -59,6 +60,8 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [20-calculators/24-claiming-age.md](20-calculators/24-claiming-age.md) — Social Security claiming-strategy calculator
 - [20-calculators/25-quarterly.md](20-calculators/25-quarterly.md) — freelancer estimated-tax planner
 - [20-calculators/26-headroom.md](20-calculators/26-headroom.md) — Roth-conversion / bracket & IRMAA headroom
+- [20-calculators/27-payoff.md](20-calculators/27-payoff.md) — mortgage extra-payment / recast / refi math without lead-gen
+- [20-calculators/28-rent-or-buy.md](20-calculators/28-rent-or-buy.md) — rent-vs-buy with every assumption visible
 
 ### life-admin family
 - [30-life-admin/00-family-overview.md](30-life-admin/00-family-overview.md) — local-first storage, local notifications, receipt/photo conventions
@@ -70,6 +73,9 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
 - [30-life-admin/36-home-rhythm.md](30-life-admin/36-home-rhythm.md) — seasonal home maintenance without the nagging
 - [30-life-admin/37-glovebox.md](30-life-admin/37-glovebox.md) — car service log + odometer-projected reminders
 - [30-life-admin/38-pet-papers.md](30-life-admin/38-pet-papers.md) — pet vaccine records + boarding-ready kennel card
+- [30-life-admin/39-health-binder.md](30-life-admin/39-health-binder.md) — family med lists, allergies & one-tap intake sheets
+- [30-life-admin/3a-contents.md](30-life-admin/3a-contents.md) — home inventory for insurance claims, before you need it
+- [30-life-admin/3b-card-perks.md](30-life-admin/3b-card-perks.md) — credit-card fees & expiring credits, no bank linking
 
 ### standalone
 - [40-standalone/41-shift-life.md](40-standalone/41-shift-life.md) — rotating-shift calendar & sleep planner
@@ -86,9 +92,28 @@ harvesting.** Each app wins by refusing to do things incumbents are structurally
    pattern.
 4. Remaining apps in any order; each additional family app should cost a fraction of its family's
    first. `quiet-site` goes live with the first app launch (playbook §6–7). Among the newer
-   plans, **Expiry Vault** and **First Years** have the strongest gap-to-effort ratios;
-   **Breach Watch** has the strongest launch-channel story (privacy communities) but carries
-   real API cost — read its plan's cost section first.
+   plans: **Expiry Vault** and **First Years** have the strongest gap-to-effort ratios;
+   **Quake Watch** is the cheapest quiet-alerts add once the pipeline exists; **Contents** must
+   follow Deposit Defense (it extracts that app's capture engine); **Payoff** should precede
+   **Rent or Buy** (shared amortization/PMI engine); **Breach Watch** has the strongest
+   launch-channel story but carries real API cost — read its plan's cost section first.
+
+## Evaluated but not planned (backlog)
+
+Ideas assessed during portfolio planning that did not clear the bar — recorded so future
+sessions don't re-litigate them from scratch:
+
+- **In Case (estate/emergency readiness binder)** — on-thesis and unserved, but the legal
+  adjacency and the overlap with Health Binder's directives-pointer need more thought; revisit
+  after Health Binder ships.
+- **Price Watch (price-drop alerts)** — real gap, but retailer price data is scrape-hostile and
+  Keepa-class APIs are paid + Amazon-only; revisit if a licensing path appears.
+- **Vote Window (nonpartisan election-deadline reminders)** — genuine quiet-alerts shape, but a
+  50-state hand-maintained dataset with civic-trust stakes; too heavy for now.
+- **Moving Day (address-change checklist)** — real pain, one-time use, thin retention; possible
+  future Deposit Defense companion feature instead of an app.
+- **Freezer/pantry inventory** — entry friction violates the <20-second capture bar at grocery
+  scale; no honest fix found.
 
 All names are working titles; check App Store / Play Store availability and trademarks before
 release (playbook §10).

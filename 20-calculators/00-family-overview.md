@@ -1,11 +1,12 @@
 # Calculators Family — Overview
 
-One monorepo (`calculators`), six apps, **no backend**. Every app is the OptionPricer shape:
+One monorepo (`calculators`), eight apps, **no backend**. Every app is the OptionPricer shape:
 a dependency-free TypeScript engine with golden regression tests, wrapped in a small offline
 Expo app. If a question arises about engine/test discipline, the answer is "what does
 `packages/pricing-engine` in the Options Pricing Suite do?"
 
-Apps: RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom.
+Apps: RSU Planner, Paycheck What-If, Ladder, Claiming Age, Quarterly, Headroom, Payoff,
+Rent or Buy.
 
 ## Monorepo layout
 
@@ -16,12 +17,16 @@ apps/ladder/
 apps/claiming-age/
 apps/quarterly/
 apps/headroom/
+apps/payoff/
+apps/rent-or-buy/
 packages/engine-rsu/           Pure TS engine + Jest + goldens
 packages/engine-paycheck/
 packages/engine-ladder/
 packages/engine-ssa/
 packages/engine-quarterly/
 packages/engine-headroom/
+packages/engine-payoff/
+packages/engine-rentbuy/
 packages/tax-data/             Versioned US tax parameters (see below)
 packages/finmath/              Shared primitives: day counts, date math, rounding, currency fmt
 packages/ui/
@@ -88,4 +93,6 @@ packages/tax-data/src/
 RSU Planner first (proves scaffold + tax-data + engine pattern), then Paycheck (heaviest data),
 Ladder, Claiming Age in either order. Quarterly builds on Paycheck's federal machinery — schedule
 it after Paycheck. Headroom builds on Claiming Age's SSA data (taxability) plus `tax-data`
-Medicare/IRMAA tables — schedule it after Claiming Age.
+Medicare/IRMAA tables — schedule it after Claiming Age. Payoff is standalone within the family;
+Rent or Buy depends on `engine-payoff` (amortization/PMI) and the `tax-data` itemization check —
+schedule it after Payoff.

@@ -1,13 +1,13 @@
 # Quiet Alerts Family — Overview
 
-One monorepo (`quiet-alerts`), six apps, **one shared Supabase project**. Every app is the same
+One monorepo (`quiet-alerts`), seven apps, **one shared Supabase project**. Every app is the same
 shape: *authoritative data feed → server-side ingestion → aggressive per-user filtering → rare,
 high-value push → deep link to detail*. This generalizes the Only Breaking pipeline; when in doubt
 about a pattern (anonymous devices, RLS, scheduled functions, push dispatch, retention), copy the
 headlines repo's approach.
 
 Apps: Recall Watch, Quiet Weather, Air & Allergy, Holdings Calendar, Streaming Arrivals,
-Breach Watch.
+Breach Watch, Quake Watch.
 
 ## Monorepo layout
 
@@ -18,6 +18,7 @@ apps/air-allergy/
 apps/holdings-calendar/
 apps/streaming-arrivals/
 apps/breach-watch/
+apps/quake-watch/
 packages/domain-alerts/      Shared: matching, dedupe, quiet hours, notification decisions
 packages/domain-<app>/       Per-app domain logic (e.g., recall matching, AQI thresholds)
 packages/api-client/         Typed client for the Supabase REST/RPC surface used by apps
@@ -30,9 +31,9 @@ docs/
 
 ## Shared backend (single Supabase project)
 
-All six apps share one project; every row carries an `app_id` discriminator
+All seven apps share one project; every row carries an `app_id` discriminator
 (`recall_watch | quiet_weather | air_allergy | holdings_calendar | streaming_arrivals |
-breach_watch`). One
+breach_watch | quake_watch`). One
 project keeps cost near zero at launch and lets the family share ingestion infrastructure. If any
 single app's load ever justifies it, it can be split out later — the `app_id` column makes that a
 data migration, not a redesign.

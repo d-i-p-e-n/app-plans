@@ -1,13 +1,13 @@
 # Life-Admin Family — Overview
 
-One monorepo (`life-admin`), eight apps, **no backend at all**. The family thesis: incumbents
+One monorepo (`life-admin`), eleven apps, **no backend at all**. The family thesis: incumbents
 solved these problems by demanding bank logins, email scraping, or cloud accounts, and a large
 population noped out. We solve them with fast manual entry, on-device storage, local scheduled
 notifications, and honest export. **"We can't see your data" is the marketing, and the
 architecture must make it literally true.**
 
 Apps: Return & Warranty Tracker, Renewals, HSA/FSA Vault, Deposit Defense, Expiry Vault,
-Home Rhythm, Glovebox, Pet Papers.
+Home Rhythm, Glovebox, Pet Papers, Health Binder, Contents, Card Perks.
 
 ## Monorepo layout
 
@@ -20,6 +20,9 @@ apps/expiry-vault/
 apps/home-rhythm/
 apps/glovebox/
 apps/pet-papers/
+apps/health-binder/
+apps/contents/
+apps/card-perks/
 packages/domain-<app>/        Pure logic: deadline math, notification decisions, totals
 packages/local-core/          Shared: sqlite DAO helpers, notification scheduler, photo store,
                               backup/export engine
@@ -71,3 +74,6 @@ STATUS.md
 generation — heaviest document output). The second wave reuses everything: Expiry Vault
 (reminder ladders — nearly pure reuse, build it first in the wave), Glovebox and Pet Papers
 (photo store + PDF export reuse), Home Rhythm (adds the schedule-generator dataset pattern).
+Third wave: Health Binder and Card Perks (pure reuse of PDF/reminder machinery, dataset-driven);
+Contents must follow Deposit Defense — its phase 1 extracts that app's capture/integrity/report
+engine into `local-core` for both to share.
