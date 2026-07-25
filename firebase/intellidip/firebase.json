@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "intellidip-2b1ed",
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
