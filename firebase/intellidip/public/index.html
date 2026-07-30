@@ -486,7 +486,7 @@
   <header class="site">
     <div class="wrap header-row">
       <a href="/" class="wordmark-link" aria-label="intellidip home">
-        <img id="wordmark-img" class="wordmark-img" src="assets/brand/intellidip-wordmark-dark.svg" alt="intellidip">
+        <img id="wordmark-img" class="wordmark-img" src="assets/brand/intellidip-wordmark-animated-dark.svg" alt="intellidip">
       </a>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
         <!-- Icon will be inserted dynamically via JavaScript -->
@@ -593,11 +593,18 @@
       const wordmarkImg = document.getElementById('wordmark-img');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
+      // The animated wordmark plays once on first paint, then holds the finished logo.
+      // Later theme changes swap in the static file so toggling the theme doesn't replay it.
+      // (The animated SVG handles prefers-reduced-motion internally, landing on the final frame.)
+      let wordmarkPlayed = false;
+
       function updateWordmark(theme) {
         const isDark = theme === 'dark' || (theme !== 'light' && prefersDark.matches);
-        wordmarkImg.src = isDark
-          ? 'assets/brand/intellidip-wordmark-dark.svg'
-          : 'assets/brand/intellidip-wordmark-light.svg';
+        const variant = isDark ? 'dark' : 'light';
+        wordmarkImg.src = wordmarkPlayed
+          ? `assets/brand/intellidip-wordmark-${variant}.svg`
+          : `assets/brand/intellidip-wordmark-animated-${variant}.svg`;
+        wordmarkPlayed = true;
       }
 
       // SVG Icons
