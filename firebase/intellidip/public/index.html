@@ -260,6 +260,7 @@
     .app-header {
       display: flex;
       align-items: center;
+	  justify-content: center;
       gap: 10px;
       padding: 16px 18px 12px;
     }
@@ -486,7 +487,7 @@
   <header class="site">
     <div class="wrap header-row">
       <a href="/" class="wordmark-link" aria-label="intellidip home">
-        <img id="wordmark-img" class="wordmark-img" src="assets/brand/intellidip-wordmark-animated-dark.svg" alt="intellidip">
+        <img class="footer-icon" src="assets/brand/intellidip-app-icon.svg" alt="" width="80" height="80">
       </a>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
         <!-- Icon will be inserted dynamically via JavaScript -->
@@ -514,9 +515,8 @@
               <span>100%</span>
             </div>
 
-            <div class="app-header">
-              <div class="logo">id</div>
-              <div class="title">Overview</div>
+            <div class="app-header">              
+			  <img id="wordmark-img" class="wordmark-img" src="assets/brand/intellidip-wordmark-animated-dark.svg" alt="intellidip">
             </div>
 
             <div class="row-list">
@@ -577,8 +577,7 @@
     <div class="wrap footer-row">
       <span class="footer-brand">        
         intellidip · Intelligent apps.		
-      </span>
-	  <img class="footer-icon" src="assets/brand/intellidip-app-icon.svg" alt="" width="40" height="40">
+      </span>	  
       <div class="footer-links">
         <a href="privacy_policy.html">Privacy</a>
         <a href="mailto:intellidip@gmail.com">Support</a>
