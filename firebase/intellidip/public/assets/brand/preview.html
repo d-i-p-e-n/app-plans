@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>intellidip logo system</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 40px; background: #e9e4d8; color: #0e1017; }
+    main { max-width: 1120px; margin: auto; display: grid; gap: 24px; }
+    h1 { margin: 0 0 8px; font-size: 24px; }
+    p { margin: 0; color: #555968; }
+    .board { border-radius: 24px; padding: 56px; min-height: 260px; display: grid; place-items: center; }
+    .dark { background: #0e1017; }
+    .light { background: #fff8e7; border: 1px solid #d8d0bd; }
+    .wordmark { width: min(760px, 100%); }
+    .marks { display: grid; grid-template-columns: repeat(2, minmax(0, 240px)); gap: 48px; align-items: center; }
+    .mark { width: 180px; max-width: 100%; }
+    .caption { margin-top: 14px; font-size: 13px; color: #858997; text-align: center; }
+    @media (max-width: 640px) { body { padding: 16px; } .board { padding: 28px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>intellidip vector logo system</h1>
+      <p>Outlined master artwork · three-dot “thinking…” signature</p>
+    </header>
+    <section class="board dark">
+      <img class="wordmark" src="intellidip-wordmark-dark.svg" alt="intellidip primary logo on dark">
+    </section>
+    <section class="board light">
+      <img class="wordmark" src="intellidip-wordmark-light.svg" alt="intellidip logo on light">
+    </section>
+    <section class="board dark">
+      <div class="marks">
+        <div>
+          <img class="mark" src="intellidip-mark.svg" alt="intellidip compact mark">
+          <div class="caption">Compact mark</div>
+        </div>
+        <div>
+          <img class="mark" src="intellidip-app-icon.svg" alt="intellidip app icon">
+          <div class="caption">App icon</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,14 @@
+﻿{
+    "generatedAt":  "2026-07-30T15:13:44.9314583Z",
+    "sourceTypeface":  "Baskerville Regular (outlines embedded; runtime font not required)",
+    "sourceFont":  "C:\\Windows\\Fonts\\BASKVILL.TTF",
+    "colors":  {
+                   "Ink":  "#0E1017",
+                   "Ivory":  "#FFF8E7",
+                   "Amber":  "#F3A30F",
+                   "AmberOnLight":  "#B87300"
+               },
+    "wordmarkViewBox":  "0 0 827 250",
+    "clearSpace":  "At least the cap-height of one amber dot on all sides",
+    "minimumWidth":  "120px digital; 32mm print"
+}
