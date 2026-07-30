@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-07-30T18:54:04.618Z",
+  "source": "intellidip-wordmark-dark.svg",
+  "totalDuration": "2.6s",
+  "splashHold": "0.6s",
+  "anchor": {
+    "x": 488.126,
+    "y": 37.99,
+    "glyph": 6,
+    "note": "second i of intell-i-dip"
+  },
+  "webZoom": 1.45,
+  "splashZoom": 4.2,
+  "splashComposition": "1024x1024 @ 60fps",
+  "letterOrder": [
+    {
+      "glyph": 5,
+      "distance": 53.12,
+      "delay": 2
+    },
+    {
+      "glyph": 7,
+      "distance": 86.206,
+      "delay": 2.028
+    },
+    {
+      "glyph": 4,
+      "distance": 106.402,
+      "delay": 2.045
+    },
+    {
+      "glyph": 8,
+      "distance": 168.706,
+      "delay": 2.098
+    },
+    {
+      "glyph": 3,
+      "distance": 183.53,
+      "delay": 2.111
+    },
+    {
+      "glyph": 9,
+      "distance": 251.099,
+      "delay": 2.168
+    },
+    {
+      "glyph": 2,
+      "distance": 255.879,
+      "delay": 2.172
+    },
+    {
+      "glyph": 1,
+      "distance": 346.114,
+      "delay": 2.249
+    },
+    {
+      "glyph": 0,
+      "distance": 430.386,
+      "delay": 2.32
+    }
+  ],
+  "files": [
+    "intellidip-wordmark-animated-dark.svg",
+    "intellidip-wordmark-animated-light.svg",
+    "intellidip-wordmark-animated-mono-light.svg",
+    "intellidip-wordmark-animated-mono-dark.svg",
+    "intellidip-splash-dark.json",
+    "intellidip-splash-light.json"
+  ]
+}

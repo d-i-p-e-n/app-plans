@@ -18,6 +18,16 @@
     .marks { display: grid; grid-template-columns: repeat(2, minmax(0, 240px)); gap: 48px; align-items: center; }
     .mark { width: 180px; max-width: 100%; }
     .caption { margin-top: 14px; font-size: 13px; color: #858997; text-align: center; }
+    .controls { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; padding: 16px 20px;
+      background: #f6f2e8; border: 1px solid #d8d0bd; border-radius: 14px; font-size: 13px; }
+    .controls button { font: inherit; font-weight: 600; padding: 7px 16px; border-radius: 999px;
+      border: 1px solid #0e1017; background: #0e1017; color: #fff8e7; cursor: pointer; }
+    .controls button:hover { background: #23262f; }
+    .controls label { display: flex; gap: 8px; align-items: center; color: #555968; }
+    .controls input[type=range] { width: 160px; accent-color: #b87300; }
+    .controls output { font-variant-numeric: tabular-nums; min-width: 46px; color: #0e1017; font-weight: 600; }
+    .controls .note { color: #858997; }
+    .board.animated { min-height: 0; padding: 40px 56px; }
     @media (max-width: 640px) { body { padding: 16px; } .board { padding: 28px; } }
   </style>
 </head>
@@ -45,6 +55,91 @@
         </div>
       </div>
     </section>
+
+    <header>
+      <h1>Animated wordmark</h1>
+      <p>Dots appear · the i stem drops from the middle dot · the word expands outward</p>
+    </header>
+    <div class="controls">
+      <button id="replay" type="button">Replay</button>
+      <label>Duration <input id="speed" type="range" min="1" max="3.5" step="0.1" value="2.6">
+        <output id="speedOut">2.6s</output></label>
+      <label>Scrub <input id="scrub" type="range" min="0" max="1" step="0.001" value="1">
+        <output id="scrubOut">end</output></label>
+      <span class="note" id="note"></span>
+    </div>
+    <section class="board dark animated" id="animDark"></section>
+    <section class="board light animated" id="animLight"></section>
+    <div class="caption">
+      Native splash screens use <code>intellidip-splash-dark.json</code> /
+      <code>intellidip-splash-light.json</code> (Lottie, 1024×1024, 3.2s including a 0.6s hold).
+    </div>
   </main>
+
+  <script>
+    (async () => {
+      const boards = [
+        { host: document.getElementById('animDark'), file: 'intellidip-wordmark-animated-dark.svg' },
+        { host: document.getElementById('animLight'), file: 'intellidip-wordmark-animated-light.svg' },
+      ];
+      const note = document.getElementById('note');
+
+      // Inlining the SVG is what makes Replay / Duration / Scrub possible; over file://
+      // fetch is blocked, so fall back to a plain <img> that just plays once on load.
+      let inlined = true;
+      for (const b of boards) {
+        try {
+          const svg = await (await fetch(b.file)).text();
+          b.host.innerHTML = svg;
+          b.host.firstElementChild.classList.add('wordmark');
+          b.host.firstElementChild.style.width = 'min(760px, 100%)';
+        } catch {
+          inlined = false;
+          b.host.innerHTML = `<img class="wordmark" src="${b.file}" alt="intellidip animated logo">`;
+        }
+      }
+
+      const controls = document.querySelector('.controls');
+      if (!inlined) {
+        controls.querySelectorAll('input, button').forEach(el => { el.disabled = true; });
+        note.textContent = 'Serve this folder over http:// to enable the controls.';
+        return;
+      }
+
+      const anims = () => boards.flatMap(b => b.host.getAnimations({ subtree: true }));
+      const svgs = () => boards.map(b => b.host.firstElementChild);
+      const duration = () => parseFloat(document.getElementById('speed').value);
+
+      const speed = document.getElementById('speed');
+      const speedOut = document.getElementById('speedOut');
+      const scrub = document.getElementById('scrub');
+      const scrubOut = document.getElementById('scrubOut');
+
+      function applyDuration() {
+        speedOut.textContent = duration().toFixed(1) + 's';
+        svgs().forEach(s => s.style.setProperty('--id-t', duration() + 's'));
+      }
+
+      function replay() {
+        scrub.value = 1;
+        scrubOut.textContent = 'end';
+        for (const a of anims()) { a.cancel(); a.play(); }
+      }
+
+      function doScrub() {
+        const t = parseFloat(scrub.value) * duration();
+        scrubOut.textContent = parseFloat(scrub.value) === 1 ? 'end' : t.toFixed(2) + 's';
+        for (const a of anims()) { a.pause(); a.currentTime = t * 1000; }
+      }
+
+      document.getElementById('replay').addEventListener('click', replay);
+      speed.addEventListener('input', () => { applyDuration(); replay(); });
+      scrub.addEventListener('input', doScrub);
+
+      applyDuration();
+      note.textContent = anims().length / boards.length + ' animated properties per instance';
+      replay();
+    })();
+  </script>
 </body>
 </html>

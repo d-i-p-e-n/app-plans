@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "intellidip-site",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "4173", "--directory", "firebase/intellidip/public"],
+      "port": 4173
+    }
+  ]
+}

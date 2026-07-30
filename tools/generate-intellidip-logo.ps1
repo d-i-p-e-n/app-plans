@@ -361,3 +361,17 @@ $metadata = [ordered]@{
 $metadata | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $resolvedOutput "logo-system.json") -Encoding utf8
 
 Write-Output "Generated intellidip vector logo system at $resolvedOutput"
+
+# The animated wordmarks and the Lottie splashes are derived from the static SVGs written
+# above, so they must be rebuilt in the same pass or they will drift from the wordmark.
+$animationScript = Join-Path $PSScriptRoot "build-intellidip-animation.mjs"
+if (-not (Test-Path -LiteralPath $animationScript)) {
+  throw "Missing $animationScript - cannot rebuild the animated logo system."
+}
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+  throw "Node.js is required to rebuild the animated logo system (tools/build-intellidip-animation.mjs)."
+}
+& node $animationScript $OutputDirectory
+if ($LASTEXITCODE -ne 0) {
+  throw "build-intellidip-animation.mjs failed with exit code $LASTEXITCODE."
+}
