@@ -138,14 +138,15 @@
       align-items: center;
     }
 
-    .wordmark {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+    .wordmark-link {
+      display: flex;
+      align-items: center;
     }
 
-    .wordmark .dip {
-      color: var(--accent);
+    .wordmark-img {
+      height: 40px;
+      width: auto;
+      display: block;
     }
 
     /* Theme Switcher Button Icon Style */
@@ -448,6 +449,17 @@
       gap: 20px;
     }
 
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-icon {
+      border-radius: 5px;
+      flex-shrink: 0;
+    }
+
     @media (max-width: 760px) {
       .hero-grid {
         grid-template-columns: 1fr;
@@ -473,7 +485,9 @@
 
   <header class="site">
     <div class="wrap header-row">
-      <div class="wordmark">intelli<span class="dip">dip</span></div>
+      <a href="/" class="wordmark-link" aria-label="intellidip home">
+        <img id="wordmark-img" class="wordmark-img" src="assets/brand/intellidip-wordmark-dark.svg" alt="intellidip">
+      </a>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
         <!-- Icon will be inserted dynamically via JavaScript -->
       </button>
@@ -561,7 +575,10 @@
 
   <footer>
     <div class="wrap footer-row">
-      <span>intellidip · Intelligent apps.</span>
+      <span class="footer-brand">
+        <img class="footer-icon" src="assets/brand/intellidip-app-icon.svg" alt="" width="20" height="20">
+        intellidip · Intelligent apps.
+      </span>
       <div class="footer-links">
         <a href="privacy_policy.html">Privacy</a>
         <a href="mailto:intellidip@gmail.com">Support</a>
@@ -573,6 +590,15 @@
     (function () {
       const toggleBtn = document.getElementById('theme-toggle');
       const root = document.documentElement;
+      const wordmarkImg = document.getElementById('wordmark-img');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+      function updateWordmark(theme) {
+        const isDark = theme === 'dark' || (theme !== 'light' && prefersDark.matches);
+        wordmarkImg.src = isDark
+          ? 'assets/brand/intellidip-wordmark-dark.svg'
+          : 'assets/brand/intellidip-wordmark-light.svg';
+      }
 
       // SVG Icons
       const icons = {
@@ -599,8 +625,10 @@
       if (savedTheme) {
         root.setAttribute('data-theme', savedTheme);
         updateIcon(savedTheme);
+        updateWordmark(savedTheme);
       } else {
         updateIcon('auto');
+        updateWordmark('auto');
       }
 
       toggleBtn.addEventListener('click', () => {
@@ -617,6 +645,13 @@
         root.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateIcon(newTheme);
+        updateWordmark(newTheme);
+      });
+
+      prefersDark.addEventListener('change', () => {
+        if (!root.getAttribute('data-theme')) {
+          updateWordmark('auto');
+        }
       });
     })();
   </script>
