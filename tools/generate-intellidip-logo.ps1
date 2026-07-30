@@ -27,6 +27,29 @@ function Format-Number([double]$value) {
   return $value.ToString("0.###", $culture)
 }
 
+function ConvertTo-Color([string]$hex) {
+  $h = $hex.TrimStart("#")
+  $r = [Convert]::ToInt32($h.Substring(0, 2), 16)
+  $g = [Convert]::ToInt32($h.Substring(2, 2), 16)
+  $b = [Convert]::ToInt32($h.Substring(4, 2), 16)
+  return [System.Drawing.Color]::FromArgb(255, $r, $g, $b)
+}
+
+function Get-RoundedRectPath([single]$x, [single]$y, [single]$width, [single]$height, [single]$radius) {
+  $path = [System.Drawing.Drawing2D.GraphicsPath]::new()
+  $d = $radius * 2
+  $path.AddArc($x, $y, $d, $d, 180, 90)
+  $path.AddArc($x + $width - $d, $y, $d, $d, 270, 90)
+  $path.AddArc($x + $width - $d, $y + $height - $d, $d, $d, 0, 90)
+  $path.AddArc($x, $y + $height - $d, $d, $d, 90, 90)
+  $path.CloseFigure()
+  return $path
+}
+
+function Save-Bitmap([System.Drawing.Bitmap]$bitmap, [string]$outputPath) {
+  $bitmap.Save($outputPath, [System.Drawing.Imaging.ImageFormat]::Png)
+}
+
 function Convert-GraphicsPathToSvgPath([System.Drawing.Drawing2D.GraphicsPath]$path) {
   $data = $path.PathData
   $points = $data.Points
@@ -135,17 +158,67 @@ function Get-TextGeometry {
   $height = [Math]::Ceiling($newBounds.Bottom + $paddingBottom)
 
   $result = [pscustomobject]@{
+    Path = $path
     PathData = Convert-GraphicsPathToSvgPath $path
     DotCenters = $dotCenters
     Width = $width
     Height = $height
   }
 
-  $path.Dispose()
   $matrix.Dispose()
   $format.Dispose()
   $privateFonts.Dispose()
   return $result
+}
+
+function New-WordmarkPng(
+  [string]$name,
+  [string]$letterColorHex,
+  [string]$dotColorHex,
+  [string]$backgroundColorHex,
+  [int]$canvasWidth,
+  [int]$canvasHeight,
+  [double]$marginRatio = 0.86
+) {
+  $scale = [Math]::Min(
+    ($canvasWidth * $marginRatio) / $geometry.Width,
+    ($canvasHeight * $marginRatio) / $geometry.Height
+  )
+  $offsetX = ($canvasWidth - ($geometry.Width * $scale)) / 2.0
+  $offsetY = ($canvasHeight - ($geometry.Height * $scale)) / 2.0
+
+  $bitmap = [System.Drawing.Bitmap]::new($canvasWidth, $canvasHeight, [System.Drawing.Imaging.PixelFormat]::Format24bppRgb)
+  $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+  $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
+  $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+
+  $backgroundBrush = [System.Drawing.SolidBrush]::new((ConvertTo-Color $backgroundColorHex))
+  $graphics.FillRectangle($backgroundBrush, 0, 0, $canvasWidth, $canvasHeight)
+
+  $graphics.TranslateTransform([single]$offsetX, [single]$offsetY)
+  $graphics.ScaleTransform([single]$scale, [single]$scale)
+
+  $letterBrush = [System.Drawing.SolidBrush]::new((ConvertTo-Color $letterColorHex))
+  $graphics.FillPath($letterBrush, $geometry.Path)
+
+  $dotBrush = [System.Drawing.SolidBrush]::new((ConvertTo-Color $dotColorHex))
+  foreach ($center in $geometry.DotCenters) {
+    $graphics.FillEllipse(
+      $dotBrush,
+      [single]($center.X - $dotRadius),
+      [single]($center.Y - $dotRadius),
+      [single]($dotRadius * 2),
+      [single]($dotRadius * 2)
+    )
+  }
+
+  Save-Bitmap $bitmap (Join-Path $resolvedOutput $name)
+
+  $dotBrush.Dispose()
+  $letterBrush.Dispose()
+  $backgroundBrush.Dispose()
+  $graphics.Dispose()
+  $bitmap.Dispose()
 }
 
 function New-WordmarkSvg(
@@ -169,7 +242,7 @@ $circles
   Set-Content -LiteralPath (Join-Path $resolvedOutput $name) -Value $svg -Encoding utf8
 }
 
-function New-CompactMarkSvg([string]$name, [bool]$includeBackground) {
+function Get-CompactMarkGeometry {
   $firstI = [System.Drawing.Drawing2D.GraphicsPath]::new()
   $privateFonts = [System.Drawing.Text.PrivateFontCollection]::new()
   $privateFonts.AddFontFile($fontPath)
@@ -184,28 +257,84 @@ function New-CompactMarkSvg([string]$name, [bool]$includeBackground) {
   $matrix = [System.Drawing.Drawing2D.Matrix]::new()
   $matrix.Translate([single](128 - $nativeDotCenterX), [single](57 - $nativeDotCenterY))
   $firstI.Transform($matrix)
-  $pathData = Convert-GraphicsPathToSvgPath $firstI
+
+  $result = [pscustomobject]@{
+    Path = $firstI
+    PathData = Convert-GraphicsPathToSvgPath $firstI
+    DotCenters = @(
+      [System.Drawing.PointF]::new(92, 57)
+      [System.Drawing.PointF]::new(128, 57)
+      [System.Drawing.PointF]::new(164, 57)
+    )
+    DotRadius = 10.0
+    ViewBoxSize = 256
+    CornerRadius = 48.0
+  }
+
+  $matrix.Dispose()
+  $format.Dispose()
+  $privateFonts.Dispose()
+  return $result
+}
+
+function New-CompactMarkSvg([string]$name, [bool]$includeBackground) {
   $background = if ($includeBackground) { "  <rect width=`"256`" height=`"256`" rx=`"48`" fill=`"$($colors.Ink)`"/>`n" } else { "" }
   $svg = @"
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
   <title id="title">intellidip compact mark</title>
   <desc id="desc">A serif lowercase i with three amber thinking dots.</desc>
-$background  <path fill="$($colors.Ivory)" fill-rule="evenodd" d="$pathData"/>
+$background  <path fill="$($colors.Ivory)" fill-rule="evenodd" d="$($compactGeometry.PathData)"/>
   <circle cx="92" cy="57" r="10" fill="$($colors.Amber)"/>
   <circle cx="128" cy="57" r="10" fill="$($colors.Amber)"/>
   <circle cx="164" cy="57" r="10" fill="$($colors.Amber)"/>
 </svg>
 "@
   Set-Content -LiteralPath (Join-Path $resolvedOutput $name) -Value $svg -Encoding utf8
-  $matrix.Dispose()
-  $firstI.Dispose()
-  $format.Dispose()
-  $privateFonts.Dispose()
+}
+
+function New-AppIconPng([string]$name, [int]$size) {
+  $scale = $size / $compactGeometry.ViewBoxSize
+
+  $bitmap = [System.Drawing.Bitmap]::new($size, $size, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
+  $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+  $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
+  $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+  $graphics.Clear([System.Drawing.Color]::Transparent)
+
+  $graphics.ScaleTransform([single]$scale, [single]$scale)
+
+  $backgroundPath = Get-RoundedRectPath 0 0 $compactGeometry.ViewBoxSize $compactGeometry.ViewBoxSize $compactGeometry.CornerRadius
+  $backgroundBrush = [System.Drawing.SolidBrush]::new((ConvertTo-Color $colors.Ink))
+  $graphics.FillPath($backgroundBrush, $backgroundPath)
+
+  $letterBrush = [System.Drawing.SolidBrush]::new((ConvertTo-Color $colors.Ivory))
+  $graphics.FillPath($letterBrush, $compactGeometry.Path)
+
+  $dotBrush = [System.Drawing.SolidBrush]::new((ConvertTo-Color $colors.Amber))
+  foreach ($center in $compactGeometry.DotCenters) {
+    $graphics.FillEllipse(
+      $dotBrush,
+      [single]($center.X - $compactGeometry.DotRadius),
+      [single]($center.Y - $compactGeometry.DotRadius),
+      [single]($compactGeometry.DotRadius * 2),
+      [single]($compactGeometry.DotRadius * 2)
+    )
+  }
+
+  Save-Bitmap $bitmap (Join-Path $resolvedOutput $name)
+
+  $dotBrush.Dispose()
+  $letterBrush.Dispose()
+  $backgroundBrush.Dispose()
+  $backgroundPath.Dispose()
+  $graphics.Dispose()
+  $bitmap.Dispose()
 }
 
 $resolvedOutput = [System.IO.Path]::GetFullPath((Join-Path (Get-Location) $OutputDirectory))
 New-Item -ItemType Directory -Path $resolvedOutput -Force | Out-Null
 $geometry = Get-TextGeometry
+$compactGeometry = Get-CompactMarkGeometry
 
 New-WordmarkSvg "intellidip-wordmark-dark.svg" $colors.Ivory $colors.Amber "Warm ivory outlined wordmark with three amber thinking dots, for dark backgrounds."
 New-WordmarkSvg "intellidip-wordmark-light.svg" $colors.Ink $colors.AmberOnLight "Near-black outlined wordmark with three accessible amber thinking dots, for light backgrounds."
@@ -213,6 +342,12 @@ New-WordmarkSvg "intellidip-wordmark-mono-light.svg" $colors.Ivory $colors.Ivory
 New-WordmarkSvg "intellidip-wordmark-mono-dark.svg" $colors.Ink $colors.Ink "Single-color near-black outlined wordmark."
 New-CompactMarkSvg "intellidip-mark.svg" $false
 New-CompactMarkSvg "intellidip-app-icon.svg" $true
+
+New-AppIconPng "intellidip-app-icon.png" 512
+New-WordmarkPng "intellidip-wordmark-dark.png" $colors.Ivory $colors.Amber $colors.Ink 4096 2304
+
+$geometry.Path.Dispose()
+$compactGeometry.Path.Dispose()
 
 $metadata = [ordered]@{
   generatedAt = (Get-Date).ToUniversalTime().ToString("o")
