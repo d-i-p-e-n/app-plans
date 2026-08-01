@@ -24,7 +24,7 @@ const outDir = path.resolve(root, process.argv[2] ?? "firebase/intellidip/public
 /* ------------------------------------------------------------------ timeline */
 // Absolute seconds. Every CSS duration/delay is emitted as calc(var(--id-t) * f)
 // where f = seconds / T, so overriding --id-t rescales the whole sequence.
-const T = 3.5; // total duration of the sequence
+const T = 3.0; // total duration of the sequence
 const HOLD = 1.5; // Lottie only: beat on the finished wordmark before the comp ends
 
 // The beats below are authored against T_REF and scaled to whatever T is set to, so changing

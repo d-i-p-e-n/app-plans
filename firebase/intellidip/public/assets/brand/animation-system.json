@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-08-01T21:56:12.003Z",
+  "generatedAt": "2026-08-01T22:14:40.451Z",
   "source": "intellidip-wordmark-dark.svg",
-  "totalDuration": "3.5s",
+  "totalDuration": "3s",
   "splashHold": "1.5s",
   "anchor": {
     "x": 488.126,
@@ -16,47 +16,47 @@
     {
       "glyph": 5,
       "distance": 53.12,
-      "delay": 2.692
+      "delay": 2.308
     },
     {
       "glyph": 7,
       "distance": 86.206,
-      "delay": 2.73
+      "delay": 2.34
     },
     {
       "glyph": 4,
       "distance": 106.402,
-      "delay": 2.753
+      "delay": 2.36
     },
     {
       "glyph": 8,
       "distance": 168.706,
-      "delay": 2.824
+      "delay": 2.421
     },
     {
       "glyph": 3,
       "distance": 183.53,
-      "delay": 2.841
+      "delay": 2.435
     },
     {
       "glyph": 9,
       "distance": 251.099,
-      "delay": 2.918
+      "delay": 2.501
     },
     {
       "glyph": 2,
       "distance": 255.879,
-      "delay": 2.924
+      "delay": 2.506
     },
     {
       "glyph": 1,
       "distance": 346.114,
-      "delay": 3.027
+      "delay": 2.594
     },
     {
       "glyph": 0,
       "distance": 430.386,
-      "delay": 3.123
+      "delay": 2.677
     }
   ],
   "files": [
