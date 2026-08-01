@@ -18,7 +18,7 @@ The master wordmark uses outlined Baskerville letterforms with three amber dots.
 - `intellidip-wordmark-animated-dark.svg` — animated wordmark for dark backgrounds.
 - `intellidip-wordmark-animated-light.svg` — animated wordmark for light backgrounds.
 - `intellidip-wordmark-animated-mono-light.svg` / `-mono-dark.svg` — single-color animated wordmarks.
-- `intellidip-splash-dark.json` / `-light.json` — Lottie splash animation, 1024×1024, 60fps, 3.2s.
+- `intellidip-splash-dark.json` / `-light.json` — Lottie splash animation, 1024×1024, 60fps, 5.0s.
 - `animation-system.json` — machine-readable choreography (timings, anchor, per-glyph delays).
 
 ## Color
@@ -46,12 +46,12 @@ wordmark.
 
 | Act | Time | What happens |
 | --- | --- | --- |
-| 1 | 0.00s – 0.82s | The three amber dots pop in left to right, 240ms apart — a "thinking" ellipsis. |
-| — | 0.82s – 1.10s | Beat. The ellipsis holds. |
-| 2 | 1.10s – 1.52s | The `i` stem extrudes downward out of the **middle** dot. |
-| — | 1.52s – 1.80s | Beat. The lockup is now exactly `intellidip-app-icon.svg`. |
-| 3 | 1.80s – 2.60s | The camera pulls back, the outer two dots fly to their own `i`s, and the remaining letters fade and rise into place. |
-| — | 2.60s → | Holds the finished wordmark. The Lottie adds a 0.6s hold, then ends at 3.2s. |
+| 1 | 0.00s – 1.10s | The three amber dots pop in left to right, 323ms apart — a "thinking" ellipsis. |
+| — | 1.10s – 1.48s | Beat. The ellipsis holds. |
+| 2 | 1.48s – 2.05s | The `i` stem extrudes downward out of the **middle** dot. |
+| — | 2.05s – 2.42s | Beat. The lockup is now exactly `intellidip-app-icon.svg`. |
+| 3 | 2.42s – 3.50s | The camera pulls back, the outer two dots fly to their own `i`s, and the remaining letters fade and rise into place. |
+| — | 3.50s → | Holds the finished wordmark. The Lottie adds a 1.5s hold, then ends at 5.0s. |
 
 Two properties are load-bearing, and both are asserted by the build:
 
@@ -78,15 +78,35 @@ in `tools/build-intellidip-animation.mjs`.
 
 ### Timing
 
-Every duration and delay is `calc(var(--id-t) * fraction)`, so one variable rescales the whole
-sequence. The files ship at `--id-t: 2.6s`. Inline the SVG (not `<img>`) to override it:
+The files ship at 3.5s, with a further 1.5s hold on the Lottie (5.0s total). There are two ways to
+change that.
+
+**At runtime**, every duration and delay in the SVG is `calc(var(--id-t) * fraction)`, so one
+variable rescales the whole sequence. This only works on an **inlined** SVG — an `<img>` is its own
+document and page CSS cannot reach into it:
 
 ```css
 .wordmark-animated svg { --id-t: 1.5s; }
 ```
 
-2.6s is deliberate on a splash but long for a header logo on every page load; ~1.5s reads better
-there. `preview.html` has a live duration slider and scrubber for comparing.
+**At build time**, edit `T` (and `HOLD` for the Lottie) at the top of
+`tools/build-intellidip-animation.mjs` and rebuild. Note the indirection: the beats in `BEATS` are
+authored against `T_REF` and scaled by `T / T_REF`, which is what makes `T` the real master
+duration. Without that scaling `T` would cancel itself out — the emitted CSS is
+`calc(var(--id-t) * seconds/T)` with `--id-t` defaulting to `T`, so changing `T` alone would move
+both the numerator's divisor and the multiplier and retime nothing.
+
+Individual beats live in `BEATS` in absolute seconds at the `T_REF` baseline. The two pauses are not
+fields — they are the gaps between acts. The ellipsis beat is
+`stemDelay - (last dotPopDelay + dotPopDur)`; the icon beat is `camDelay - (stemDelay + stemDur)`.
+To hold the app icon longer, raise `camDelay`, `travelDelay` and `growDelay` together; they are
+deliberately equal.
+
+Letter delays are derived from each glyph's distance to the anchor, not listed, which is what keeps
+each dot landing as its own stem appears. If you change `travelDur`, move `letterStart` and
+`letterSpan` with it or that sync drifts.
+
+`preview.html` has a live duration slider and scrubber for comparing values before you commit one.
 
 ### Reduced motion
 

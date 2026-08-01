@@ -2,13 +2,13 @@
   <title id="idTitle">intellidip</title>
   <desc id="idDesc">Single-color ivory animated wordmark.</desc>
   <style>
-    svg{--id-t:2.6s}
+    svg{--id-t:3.5s}
     .id-cam{transform-origin:488.126px 37.99px;animation:id-cam calc(var(--id-t)*0.1692) cubic-bezier(0.22,1,0.36,1) calc(var(--id-t)*0.6923) both;}
     .id-letter{animation:id-letter calc(var(--id-t)*0.1077) cubic-bezier(0.16,1,0.3,1) calc(var(--id-t)*0) both;}
     .id-stem{transform-origin:488.126px 37.99px;animation:id-stem calc(var(--id-t)*0.1615) cubic-bezier(0.25,1,0.5,1) calc(var(--id-t)*0.4231) both;}
     .id-pop{transform-box:fill-box;transform-origin:center;animation:id-pop calc(var(--id-t)*0.1308) cubic-bezier(0.25,1,0.5,1) calc(var(--id-t)*0) both;}
     .id-grow{animation:id-grow calc(var(--id-t)*0.1692) cubic-bezier(0.22,1,0.36,1) calc(var(--id-t)*0.6923) both;}
-    .id-travel{animation:id-travel calc(var(--id-t)*0.3846) cubic-bezier(0.22,1,0.36,1) calc(var(--id-t)*0.6923) both;}
+    .id-travel{animation:id-travel calc(var(--id-t)*0.2857) cubic-bezier(0.22,1,0.36,1) calc(var(--id-t)*0.6923) both;}
     .id-l5{animation-delay:calc(var(--id-t)*0.7692)}
     .id-l7{animation-delay:calc(var(--id-t)*0.78)}
     .id-l4{animation-delay:calc(var(--id-t)*0.7866)}

@@ -62,8 +62,8 @@
     </header>
     <div class="controls">
       <button id="replay" type="button">Replay</button>
-      <label>Duration <input id="speed" type="range" min="1" max="3.5" step="0.1" value="2.6">
-        <output id="speedOut">2.6s</output></label>
+      <label>Duration <input id="speed" type="range" min="1" max="6" step="0.1" value="3.5">
+        <output id="speedOut">3.5s</output></label>
       <label>Scrub <input id="scrub" type="range" min="0" max="1" step="0.001" value="1">
         <output id="scrubOut">end</output></label>
       <span class="note" id="note"></span>
@@ -72,7 +72,7 @@
     <section class="board light animated" id="animLight"></section>
     <div class="caption">
       Native splash screens use <code>intellidip-splash-dark.json</code> /
-      <code>intellidip-splash-light.json</code> (Lottie, 1024×1024, 3.2s including a 0.6s hold).
+      <code>intellidip-splash-light.json</code> (Lottie, 1024×1024, 5.0s including a 1.5s hold).
     </div>
   </main>
 
@@ -136,8 +136,17 @@
       speed.addEventListener('input', () => { applyDuration(); replay(); });
       scrub.addEventListener('input', doScrub);
 
+      // Seed the slider from the duration the built files actually ship with, so this page
+      // stays honest if T changes in tools/build-intellidip-animation.mjs.
+      const shipped = parseFloat(getComputedStyle(svgs()[0]).getPropertyValue('--id-t'));
+      if (Number.isFinite(shipped)) {
+        speed.max = String(Math.max(parseFloat(speed.max), Math.ceil(shipped) + 1));
+        speed.value = String(shipped);
+      }
+
       applyDuration();
-      note.textContent = anims().length / boards.length + ' animated properties per instance';
+      note.textContent = anims().length / boards.length + ' animated properties per instance'
+        + (Number.isFinite(shipped) ? ` · ships at ${shipped}s` : '');
       replay();
     })();
   </script>

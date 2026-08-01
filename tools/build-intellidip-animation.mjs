@@ -24,10 +24,14 @@ const outDir = path.resolve(root, process.argv[2] ?? "firebase/intellidip/public
 /* ------------------------------------------------------------------ timeline */
 // Absolute seconds. Every CSS duration/delay is emitted as calc(var(--id-t) * f)
 // where f = seconds / T, so overriding --id-t rescales the whole sequence.
-const T = 2.6;
-const HOLD = 0.6; // Lottie only: beat on the finished wordmark before the comp ends
+const T = 3.5; // total duration of the sequence
+const HOLD = 1.5; // Lottie only: beat on the finished wordmark before the comp ends
 
-const TL = {
+// The beats below are authored against T_REF and scaled to whatever T is set to, so changing
+// T alone really does retime the sequence. (Without the scaling they would cancel out: the
+// emitted CSS is calc(var(--id-t) * seconds/T) with --id-t defaulting to T.)
+const T_REF = 2.6;
+const BEATS = {
   dotPopDur: 0.34,
   dotPopDelay: [0.0, 0.24, 0.48],
   stemDelay: 1.1,
@@ -41,8 +45,18 @@ const TL = {
   letterStart: 2.0,
   letterSpan: 0.32, // stagger window for the first->last letter start
   letterDur: 0.28,
-  letterRise: 14, // wordmark units
+  tittleFadeDur: 0.06, // the i1/i3 tittles, revealed under their landing dot
+  tittleFadeDurAnchor: 0.2, // the i2 tittle, revealed under the middle dot's pop
 };
+
+const timeScale = T / T_REF;
+const TL = Object.fromEntries(
+  Object.entries(BEATS).map(([k, v]) => [
+    k,
+    Array.isArray(v) ? v.map((n) => n * timeScale) : v * timeScale,
+  ])
+);
+TL.letterRise = 14; // wordmark units, not a time -- deliberately unscaled
 
 // Easing shared by the SVG (cubic-bezier) and the Lottie (in/out tangents).
 const EASE_OUT_SOFT = [0.22, 1, 0.36, 1]; // camera pull-back, dot travel
@@ -286,9 +300,9 @@ const dotPlan = wordmark.dots.map((dt, i) => {
 // Each tittle is hidden until its own dot has landed on top of it, so the ink tittle is
 // never visible uncovered. i2's tittle appears with the middle dot's pop.
 const tittlePlan = [
-  { glyph: 0, end: TL.travelDelay + TL.travelDur[0], dur: 0.06 },
-  { glyph: 6, start: TL.dotPopDelay[1], dur: 0.2 },
-  { glyph: 8, end: TL.travelDelay + TL.travelDur[2], dur: 0.06 },
+  { glyph: 0, end: TL.travelDelay + TL.travelDur[0], dur: TL.tittleFadeDur },
+  { glyph: 6, start: TL.dotPopDelay[1], dur: TL.tittleFadeDurAnchor },
+  { glyph: 8, end: TL.travelDelay + TL.travelDur[2], dur: TL.tittleFadeDur },
 ].map((t) => ({ ...t, start: t.start ?? t.end - t.dur }));
 
 /* --------------------------------------------------------- camera framing */
