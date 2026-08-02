@@ -71,6 +71,9 @@ removes them forever. Each app wins by refusing the *rest* of what incumbents do
 - [01-growth-playbook.md](01-growth-playbook.md) — binding adoption & monetization process
 - [02-app-kit.md](02-app-kit.md) — binding shared-scaffolding standard (`@intellidip/app-kit`):
   distribution, versioning, API surface, wiring checklist, and invariants
+- [03-accounts-and-services.md](03-accounts-and-services.md) — **human checklist**: every
+  third-party account the working repos depend on, its purpose, and what breaks without it.
+  Agents never create accounts or handle key material.
 
 ### quiet-alerts family
 - [10-quiet-alerts/00-family-overview.md](10-quiet-alerts/00-family-overview.md) — shared backend, ingestion/dispatch pipeline, shared packages
