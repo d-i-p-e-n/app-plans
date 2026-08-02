@@ -24,8 +24,10 @@ apps/shortage-watch/
 packages/domain-alerts/      Shared: matching, dedupe, quiet hours, notification decisions
 packages/domain-<app>/       Per-app domain logic (e.g., recall matching, AQI thresholds)
 packages/api-client/         Typed client for the Supabase REST/RPC surface used by apps
-packages/ui/
-packages/entitlements/
+@intellidip/app-kit           Published shared scaffolding (theme, text scale, splash,
+                              brand mark, About, analytics/crashlytics, entitlements,
+                              ads/purchases config) - see 02-app-kit.md. NOT a workspace
+                              package; add it to each app's dependencies.
 supabase/migrations/
 supabase/functions/
 docs/
@@ -142,7 +144,8 @@ free of Node-specific APIs so it loads in both Jest (Node) and edge (Deno) conte
 
 Build **Recall Watch first** — it forces the whole pipeline (schema, RPCs, ingest, dispatch,
 push credentials, one app shell). Each subsequent app then adds: one or two `ingest-*` functions,
-one `domain-<app>` package, and one `apps/<app>` shell reusing `packages/ui` + `api-client`.
+one `domain-<app>` package, and one `apps/<app>` shell reusing `@intellidip/app-kit` +
+`api-client`.
 Target: each app after the first should be a materially smaller effort than the first.
 
 ## Family-wide risks

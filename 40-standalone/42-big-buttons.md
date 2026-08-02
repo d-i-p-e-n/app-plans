@@ -71,8 +71,15 @@ packages/config-share/        Config serialization ↔ QR/file (versioned, forwa
 packages/ui-elder/            The accessibility-charter component kit (BigTile, BigButton,
                               ConfirmScreen, StatusLine) — every elder-facing screen composes
                               ONLY these primitives; charter compliance is enforced here once
-packages/entitlements/
+@intellidip/app-kit           Published shared scaffolding (see 02-app-kit.md). Supplies the
+                              entitlements seam, analytics/crashlytics, splash and About.
 ```
+
+`ui-elder` stays app-specific and is **not** replaced by the kit — the accessibility charter is
+this app's whole point. Note one deliberate conflict: the kit's `ScaledText` sets
+`allowFontScaling={false}` and substitutes an in-app text-size control. Elder-facing screens must
+honour **OS** font scaling instead, so compose them from `ui-elder` primitives and do not use
+`ScaledText` on any elder surface. Setup Mode (child-facing) may use it.
 
 Reminder engine rules: fixed daily/weekly times; "done" logs locally (a simple adherence view
 in Setup Mode only — visible to the child during visits, never nagging the elder); snooze =

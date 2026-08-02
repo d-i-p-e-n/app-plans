@@ -30,13 +30,19 @@ norms vary much more); nothing in this section touches them.
    local pricing. The brand names differ per country where the local term demands it.
 2. **One monorepo per country** (`calculators-ca`, `calculators-in`, `calculators-uk`),
    mirroring the US repo's layout exactly (apps/, packages/engine-*, packages/tax-data,
-   packages/finmath, packages/ui, packages/entitlements, docs/, STATUS.md). Same CI, same
-   golden-test discipline, same phase-gate working agreements.
-3. **Copy-in, don't cross-depend** (established family precedent). At repo creation, copy
-   `finmath`, `ui`, `entitlements`, and any near-universal engine (e.g., Snowball's multi-debt
+   packages/finmath, docs/, STATUS.md), plus a dependency on `@intellidip/app-kit`
+   ([02-app-kit.md](../02-app-kit.md)). Same CI, same golden-test discipline, same phase-gate
+   working agreements.
+3. **Copy-in, don't cross-depend** (established family precedent) — **for domain packages only**.
+   At repo creation, copy `finmath` and any near-universal engine (e.g., Snowball's multi-debt
    amortization) from the US repo, then let them diverge. Record the source commit in the
    copied package's README. Universal-math divergence should stay near zero; tax-data diverges
    by design.
+
+   `@intellidip/app-kit` is the deliberate **exception to copy-in**: it is a published,
+   semver-versioned dependency, never copied. Divergence there is a liability rather than a
+   feature — a fix should reach every country repo through a version bump. Country-specific
+   behaviour is supplied as props, not as a fork.
 4. **`tax-data` becomes `tax-data` per repo with country structure:** same design — every
    constant carries a source citation, versioned by the country's tax year, honest banners
    when stale, and a country-specific annual-update runbook naming the authority pages to

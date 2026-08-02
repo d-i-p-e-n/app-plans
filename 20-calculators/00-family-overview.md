@@ -39,8 +39,10 @@ packages/engine-sixtyfive/
 packages/engine-payback/
 packages/tax-data/             Versioned US tax parameters (see below)
 packages/finmath/              Shared primitives: day counts, date math, rounding, currency fmt
-packages/ui/
-packages/entitlements/
+@intellidip/app-kit           Published shared scaffolding (theme, text scale, splash,
+                              brand mark, About, analytics/crashlytics, entitlements,
+                              ads/purchases config) - see 02-app-kit.md. NOT a workspace
+                              package; add it to each app's dependencies.
 docs/
 STATUS.md
 ```
@@ -91,9 +93,11 @@ packages/tax-data/src/
 ## Shared app shell conventions
 
 - Fully offline. No network permission usage except Ladder's optional yield fetch (its plan).
-- Scenario persistence: AsyncStorage via a shared thin `packages/ui` storage hook; every app
-  supports saving named scenarios and duplicating them for comparison (this is the calculators'
-  core interaction: A/B compare).
+- Scenario persistence: AsyncStorage via a thin repo-local storage hook (`packages/scenarios`, or
+  the app's own `src/hooks/`); every app supports saving named scenarios and duplicating them for
+  comparison (this is the calculators' core interaction: A/B compare). This is **not** an
+  `@intellidip/app-kit` surface — scenario shape is calculator-family-specific. If a second family
+  needs the identical hook, that is the trigger to propose extracting it.
 - Every app has a comparison view: two saved scenarios side by side with deltas highlighted.
 - Pro-candidate features (free at launch, behind `hasFeature`): >3 saved scenarios, CSV/PDF
   export of breakdowns, extra states in Paycheck.

@@ -27,16 +27,21 @@ removes them forever. Each app wins by refusing the *rest* of what incumbents do
 
 1. Read [00-shared-standards.md](00-shared-standards.md) **first and in full**. It is binding for
    every app. App plans only document deviations from it.
-2. Read [01-growth-playbook.md](01-growth-playbook.md) — the adoption & monetization process
+2. Read [02-app-kit.md](02-app-kit.md) — the shared `@intellidip/app-kit` scaffolding every app
+   builds on (theme, text scaling, splash, brand mark, About/Privacy, Analytics/Crashlytics,
+   entitlements, ads/purchases config). **Wherever an app plan describes building one of those
+   surfaces from scratch, the kit supersedes it.** It also retires the per-repo `packages/ui` and
+   `packages/entitlements` that older text still mentions.
+3. Read [01-growth-playbook.md](01-growth-playbook.md) — the adoption & monetization process
    (ASO, store listings, keywords, launch, SEO, when/how to monetize). Each app plan's
    "Adoption & monetization" section supplies that app's inputs to the playbook.
-3. Read the family overview (`00-family-overview.md`) for the repo you are working in. It defines
+4. Read the family overview (`00-family-overview.md`) for the repo you are working in. It defines
    the monorepo layout, shared packages, and (for quiet-alerts) the shared Supabase backend.
-4. Read the specific app plan. Implement phase by phase, in order. Every phase has acceptance
+5. Read the specific app plan. Implement phase by phase, in order. Every phase has acceptance
    criteria; do not start a phase until the previous phase's criteria pass.
-5. All external API details (rate limits, auth, ToS) in these plans were checked in July 2026.
+6. All external API details (rate limits, auth, ToS) in these plans were checked in July 2026.
    **Re-verify them at implementation time** before building against them.
-6. Keep a `STATUS.md` at the repo root current as you work (what is implemented, what remains,
+7. Keep a `STATUS.md` at the repo root current as you work (what is implemented, what remains,
    continuation instructions for the next agent) — same convention as the headlines repo.
 
 ## Repo map (6 app repos + 1 web repo)
@@ -64,6 +69,8 @@ removes them forever. Each app wins by refusing the *rest* of what incumbents do
 
 - [00-shared-standards.md](00-shared-standards.md) — binding engineering/product conventions
 - [01-growth-playbook.md](01-growth-playbook.md) — binding adoption & monetization process
+- [02-app-kit.md](02-app-kit.md) — binding shared-scaffolding standard (`@intellidip/app-kit`):
+  distribution, versioning, API surface, wiring checklist, and invariants
 
 ### quiet-alerts family
 - [10-quiet-alerts/00-family-overview.md](10-quiet-alerts/00-family-overview.md) — shared backend, ingestion/dispatch pipeline, shared packages

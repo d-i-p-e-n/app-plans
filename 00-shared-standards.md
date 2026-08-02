@@ -49,9 +49,14 @@ Breaking (`C:\Users\djpatel\Documents\Code\headlines`).
 - **Notifications:** `expo-notifications`. Local scheduled notifications for local-first apps;
   Expo Push (via Supabase edge functions) for the quiet-alerts family.
 - **Charts/graphics:** `react-native-svg` only. No heavy chart libraries.
-- **UI:** plain React Native `StyleSheet` + a small shared `packages/ui` design-tokens module per
-  repo (spacing scale, type scale, light/dark palettes). No component-kit dependencies
-  (no NativeBase/Tamagui/UI-Kitten).
+- **UI:** plain React Native `StyleSheet` + `@intellidip/app-kit` for design-token contracts and
+  shared primitives (palette contract, type scale, scaled text, splash gate, About screen). No
+  component-kit dependencies (no NativeBase/Tamagui/UI-Kitten). **A per-repo `packages/ui` is
+  retired — do not create one**; see [02-app-kit.md](02-app-kit.md).
+- **Shared scaffolding:** `@intellidip/app-kit`, published to GitHub Packages, is binding for
+  theme, text scaling, splash, brand mark, About/Privacy, Firebase Analytics + Crashlytics
+  wiring, the entitlements seam, and ads/purchases configuration. See
+  [02-app-kit.md](02-app-kit.md) for the API surface, installation, and versioning policy.
 - **Analytics/crash:** `@react-native-firebase/app` + `analytics` + `crashlytics` via Expo
   config plugins (development builds required — already the family norm).
 - **Ads:** `react-native-google-mobile-ads` (AdMob), including the bundled Google UMP
@@ -68,8 +73,6 @@ Breaking (`C:\Users\djpatel\Documents\Code\headlines`).
 apps/<app-a>/               Expo Router app (one per product)
 apps/<app-b>/
 packages/domain-<x>/        Dependency-free TypeScript domain logic + Jest tests
-packages/ui/                Shared design tokens + primitive components
-packages/entitlements/      Pro-unlock seam (§6)
 supabase/                   (quiet-alerts repo only) migrations + edge functions
 docs/                       Runbooks (push credentials, store submission, data-source notes)
 STATUS.md                   Living implementation status + AI continuation instructions
@@ -82,7 +85,12 @@ Rules:
   data out. This is the same discipline as `packages/pricing-engine` in the Options Pricing Suite
   and is what makes the test suites trustworthy.
 - Apps depend on packages; packages never depend on apps; packages may depend on other packages
-  only downward (domain ← nothing; ui ← nothing; app ← both).
+  only downward (domain ← nothing; app ← domain + `@intellidip/app-kit`).
+- **Domain packages never import `@intellidip/app-kit`.** The kit is a UI/platform package;
+  pulling it into a domain package breaks the dependency-free rule above.
+- Shared UI/platform scaffolding is **not** a workspace package. It is the published
+  `@intellidip/app-kit` ([02-app-kit.md](02-app-kit.md)), so each repo also commits an `.npmrc`
+  pointing the `@intellidip` scope at GitHub Packages.
 - Root scripts that must always pass: `npm run typecheck`, `npm run lint`, `npm test`. CI runs all
   three on every PR (GitHub Actions, Node 22, `npm ci`).
 
@@ -122,15 +130,20 @@ Rules:
 
 ## 6. Entitlements seam (Remove-Ads live at launch; Pro-ready)
 
-Every repo has `packages/entitlements`:
+The seam ships in `@intellidip/app-kit` ([02-app-kit.md](02-app-kit.md) §4.9). Do **not** create a
+per-repo `packages/entitlements` — that instruction is retired.
 
 ```ts
 export type Feature = 'no-ads' | 'core' | /* app-specific, e.g. */ 'unlimited-items' | 'export-pdf';
+export const NO_ADS_FEATURE: Feature;                  // the one named source of truth for 'no-ads'
 export function hasFeature(feature: Feature): boolean; // 'no-ads' backed by the real purchase;
                                                        // everything else true at launch
 ```
 
 - All feature checks in app code go through `hasFeature()` from day one.
+- Import `NO_ADS_FEATURE` rather than writing the `'no-ads'` string literal, so the identifier has
+  exactly one named source across the portfolio.
+- Apps extend `Feature` with their own Pro features; the kit owns `'no-ads'` and `'core'`.
 - `'no-ads'` is backed by the Remove-Ads IAP from the MVP onward (billing per §2); purchase
   state restores across reinstall via the store's native restore path, and every ad slot in
   the app checks it — a purchaser never sees an ad surface again, including house ads.

@@ -33,8 +33,10 @@ apps/stash/
 packages/domain-<app>/        Pure logic: deadline math, notification decisions, totals
 packages/local-core/          Shared: sqlite DAO helpers, notification scheduler, photo store,
                               backup/export engine
-packages/ui/
-packages/entitlements/
+@intellidip/app-kit           Published shared scaffolding (theme, text scale, splash,
+                              brand mark, About, analytics/crashlytics, entitlements,
+                              ads/purchases config) - see 02-app-kit.md. NOT a workspace
+                              package; add it to each app's dependencies.
 docs/
 STATUS.md
 ```
