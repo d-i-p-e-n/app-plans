@@ -84,9 +84,15 @@ Every consuming repo commits an `.npmrc` at its root:
 //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
 ```
 
-`NODE_AUTH_TOKEN` is a classic PAT with `read:packages`, set as an environment variable locally
+`NODE_AUTH_TOKEN` is a **classic** PAT with `read:packages` (fine-grained tokens are not reliably
+supported by `npm.pkg.github.com` and fail as an opaque 401), set as an environment variable locally
 and as a repo secret in CI. **Never commit the token itself** — the `${NODE_AUTH_TOKEN}`
 indirection above is what makes the committed `.npmrc` safe.
+
+A repo owned by the *same* account as the package can skip the PAT in CI and use the built-in
+`GITHUB_TOKEN` with `permissions: packages: read`. A repo under a different owner cannot: GitHub's
+per-package repository-access setting only lists repos under the package's own owner, so a PAT
+secret is required there.
 
 Consuming repos add the dependency at the app level, not the repo root:
 
@@ -94,11 +100,15 @@ Consuming repos add the dependency at the app level, not the repo root:
 { "dependencies": { "@intellidip/app-kit": "^1.2.0" } }
 ```
 
-EAS Build needs the token too. Add it as a secret so the cloud builder can install:
+EAS Build needs the token too, in **every** environment its `eas.json` profiles build under:
 
 ```powershell
-eas secret:create --scope project --name NODE_AUTH_TOKEN --value <PAT> --type string
+eas env:create --scope project --name NODE_AUTH_TOKEN --value <PAT> --visibility secret --environment development
+eas env:create --scope project --name NODE_AUTH_TOKEN --value <PAT> --visibility secret --environment preview
+eas env:create --scope project --name NODE_AUTH_TOKEN --value <PAT> --visibility secret --environment production
 ```
+
+(`eas secret:create` is the legacy form; do not use it.)
 
 **If the registry is unreachable during a build, stop and report it.** Do not vendor a copy of the
 kit into a consuming repo as a workaround — a local copy immediately drifts and there is no
@@ -419,22 +429,32 @@ thing is the trigger to propose extracting it.
 
 ---
 
-## 9. Migrating the Options Pricing Suite
+## 9. Migration status — done
 
-The kit currently lives at `C:\dev\OptionPricer\packages\app-kit` as `@pricer/app-kit`, on branch
-`advisor/051-app-kit-extraction`. Extracting it is mechanical — it has no imports reaching back
-into the app.
+`@intellidip/app-kit@1.0.0` was published on 2026-08-02 from `github.com/intellidip/app-kit`, and
+the Options Pricing Suite consumes it from GitHub Packages. `packages/app-kit` and
+`packages/entitlements` no longer exist in that repo. The full procedure and its verification gates
+are recorded in `OptionPricer/plans/052-app-kit-standalone-repo.md`.
 
-1. Merge `advisor/051-app-kit-extraction` first; do not extract from an unmerged branch.
-2. Copy `packages/app-kit/` (including `__mocks__/`, config files and tests) into the new repo.
-3. Rename `@pricer/app-kit` → `@intellidip/app-kit`; update the import in every OptionPricer file
-   that references it.
-4. Move `packages/entitlements`'s contents into the kit's `entitlements/` module; update
-   OptionPricer's imports from `@pricer/entitlements`.
-5. Publish `1.0.0`.
-6. In OptionPricer, delete both workspace packages, add the dependency and `.npmrc`, and confirm
-   `npm test`, `npm run typecheck`, `npm run lint` and `npx expo export --platform android` all
-   still pass.
+Four things learned in execution that apply to every future consumer:
+
+1. **`moduleResolution: Node16` does not work for this package.** It resolves
+   `@react-native-firebase/*` through their `exports` maps as ESM, so `typeof import(...)` from a
+   CommonJS file fails with `TS1542`. The build uses `module: "CommonJS"` +
+   `moduleResolution: "node10"`, which needs `"ignoreDeprecations": "6.0"` under TypeScript 6 —
+   **revisit before TypeScript 7**.
+2. **`npm install` will not re-resolve a `file:` dependency** to the registry if the installed
+   version already satisfies the new range. Changing `file:…tgz` to `^1.0.0` and reinstalling
+   silently keeps the tarball path in the lockfile, which then fails on any other machine. Force it
+   with `npm uninstall` then `npm install <pkg>@<range>`, and assert the lockfile's `resolved` URL
+   rather than trusting `npm ls`.
+3. **A rename must also search the escaped form.** A regex literal containing `'@pricer\/app-kit'`
+   is not matched by a plain `@pricer/app-kit` search.
+4. **Verify platform variants by asset content, not filename.** Metro drops the path, so grepping a
+   bundle for the asset filename returns nothing whether or not it is embedded. Comparing a string
+   from *inside* the Lottie JSON across the android and web bundles is what actually proves
+   `.web.js` resolution works from compiled `dist/`.
 
 Device QA for the switchover follows `C:\dev\OptionPricer\HOWTO.md` section 11 — in particular
-§11c, testing persisted state across an *upgrade* rather than a fresh install.
+§11c, testing persisted state across an *upgrade* rather than a fresh install. That QA is still
+outstanding, as is plan 051's.
