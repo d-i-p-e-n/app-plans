@@ -46,6 +46,7 @@ shared-standards §3).
 **Also becomes the package registry.** Per [02-app-kit.md](02-app-kit.md), `@intellidip/app-kit`
 publishes to **GitHub Packages**. That needs a classic PAT with `read:packages` on every dev
 machine and in every consuming repo's CI, plus `write:packages` for the publishing workflow.
+PAT expires 8/2/2027.
 
 **Without it:** no CI, and no way to distribute shared scaffolding across repos.
 
