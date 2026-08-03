@@ -28,6 +28,22 @@
   <meta property="twitter:image" content="https://intellidip.com/og-image.png">
 
   <style>
+    @font-face {
+      font-family: "Libre Baskerville";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("assets/fonts/libre-baskerville-regular.woff2") format("woff2");
+    }
+
+    @font-face {
+      font-family: "Libre Baskerville";
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url("assets/fonts/libre-baskerville-bold.woff2") format("woff2");
+    }
+
     :root {
       --bg: #f5efdd;
       --surface: #fbf8ee;
@@ -192,20 +208,24 @@
       gap: 48px;
       align-items: center;
     }
-	
-	.hero-text {
-	  font-family: var(--display);
-	  font-size: 1.25rem; /* Adjust this value (e.g., 1.25rem, 1.75rem, 24px) to change size */
-	  color: var(--ink); /* Uses your primary ink color */
-	}	
+
+    .hero-text {
+      font-family: var(--display);
+      font-size: 1.25rem;
+      /* Adjust this value (e.g., 1.25rem, 1.75rem, 24px) to change size */
+      color: var(--ink);
+      /* Uses your primary ink color */
+    }
 
     h1 {
-      font-size: clamp(34px, 4.8vw, 50px);
-      line-height: 1.1;
-      font-weight: 600;
+      font-family: "Libre Baskerville", "Baskerville", "Baskerville Old Face", "Hoefler Text", Georgia, serif;
+      font-size: clamp(34px, 4.8vw, 40px);
+      line-height: 1.5;
+	  font-weight: 200;
       margin: 0 0 16px;
-      letter-spacing: -0.025em;
+      letter-spacing: 0.0em;
       text-wrap: balance;
+      text-align: center;
     }
 
     .hero p.lede {
@@ -266,7 +286,7 @@
     .app-header {
       display: flex;
       align-items: center;
-	  justify-content: center;
+      justify-content: center;
       gap: 10px;
       padding: 16px 18px 12px;
     }
@@ -505,10 +525,11 @@
     <div class="wrap hero-grid">
       <div>
         <h1>Everything you need.<br>Nothing you don't.</h1>
-        <p class="hero-text">Remember when apps just worked?</p>        
-		<p class="hero-text"><strong>intellidip</strong> builds fast, private, and refreshingly simple tools.</p>
-		<p class="hero-text">We strip away the noise to give you an experience centered completely on everyday practical value.</p>
-		<p class="hero-text">Just apps that do their job, then get out of your way.</p>
+        <p class="hero-text">Remember when apps just worked?</p>
+        <p class="hero-text"><strong>intellidip</strong> builds fast, private, and refreshingly simple tools.</p>
+        <p class="hero-text">We strip away the noise to give you an experience centered completely on everyday practical
+          value.</p>
+        <p class="hero-text">Just apps that do their job, then get out of your way.</p>
       </div>
 
       <!-- Screen Preview -->
@@ -521,8 +542,9 @@
               <span>100%</span>
             </div>
 
-            <div class="app-header">              
-			  <img id="wordmark-img" class="wordmark-img" src="assets/brand/intellidip-wordmark-animated-dark.svg" alt="intellidip">
+            <div class="app-header">
+              <img id="wordmark-img" class="wordmark-img" src="assets/brand/intellidip-wordmark-animated-dark.svg"
+                alt="intellidip">
             </div>
 
             <div class="row-list">
@@ -535,7 +557,7 @@
                 </div>
                 <div class="txt">
                   <div class="t1">Total privacy</div>
-				  <div class="t2">Zero data selling</div>
+                  <div class="t2">Zero data selling</div>
                 </div>
               </div>
 
@@ -547,10 +569,10 @@
                 </div>
                 <div class="txt">
                   <div class="t1">Distraction-free</div>
-				  <div class="t2">No full-screen or video ads</div>
+                  <div class="t2">No full-screen or video ads</div>
                 </div>
               </div>
-			  
+
               <div class="ui-row">
                 <div class="ic">
                   <svg viewBox="0 0 24 24">
@@ -559,9 +581,9 @@
                 </div>
                 <div class="txt">
                   <div class="t1">Clean layouts</div>
-				  <div class="t2">No clutter</div>
+                  <div class="t2">No clutter</div>
                 </div>
-              </div>			  
+              </div>
 
               <div class="ui-row">
                 <div class="ic">
@@ -571,7 +593,7 @@
                 </div>
                 <div class="txt">
                   <div class="t1">Instant access</div>
-				  <div class="t2">No sign-ups or accounts</div>
+                  <div class="t2">No sign-ups or accounts</div>
                 </div>
               </div>
 
@@ -585,9 +607,9 @@
 
   <footer>
     <div class="wrap footer-row">
-      <span class="footer-brand">        
+      <span class="footer-brand">
         intellidip
-      </span>	  
+      </span>
       <div class="footer-links">
         <a href="privacy_policy.html">Privacy</a>
         <a href="mailto:intellidip@gmail.com">Support</a>
