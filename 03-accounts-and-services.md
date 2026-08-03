@@ -142,7 +142,7 @@ design, and the dev logger takes over.
 `https://intellidip.com/privacy_policy.html` (required by both stores) and
 `https://intellidip.com/` (the developer-website link behind the brand mark).
 
-Served by Firebase Hosting (site `intellidip-2b1ed`; see `app-plans/firebase/intellidip/`).
+Served by Firebase Hosting (site `intellidip-2b1ed`; see `app-kit/firebase/intellidip/`).
 
 **Without it:** the privacy policy 404s, which is a store-review rejection on both platforms.
 
